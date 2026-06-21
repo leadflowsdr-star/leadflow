@@ -618,6 +618,162 @@
             margin-top: 4px;
             display: block;
         }
+
+        /* AI Live Chat Widget Styles */
+        .chat-widget-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.5);
+            z-index: 999;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .chat-widget-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .chat-window {
+            display: none;
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            width: 380px;
+            height: 500px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            z-index: 999;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .chat-header {
+            background-color: #060a13;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-header-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .chat-header-text h4 {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .chat-header-text span {
+            font-size: 11px;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: #03060c;
+        }
+
+        .chat-msg {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 13px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .chat-msg.elena {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-white);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-msg.user {
+            background-color: var(--accent);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input-area {
+            padding: 14px;
+            background-color: #060a13;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input-field {
+            flex-grow: 1;
+            background-color: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: white;
+            padding: 10px 14px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .chat-input-field:focus {
+            border-color: var(--accent);
+        }
+
+        .chat-send-btn {
+            background-color: var(--accent);
+            border: none;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .chat-send-btn:hover {
+            background-color: #4f46e5;
+        }
     </style>
 </head>
 <body>
@@ -827,6 +983,33 @@
         </div>
     </div>
 
+    <!-- AI Live Chat Widget HTML -->
+    <div class="chat-widget-btn" onclick="toggleChatWindow()">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+    </div>
+
+    <div class="chat-window" id="chat-window-box">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <div class="chat-header-avatar">E</div>
+                <div class="chat-header-text">
+                    <h4>Elena</h4>
+                    <span><span style="display:inline-block; width:8px; height:8px; background-color:#10b981; border-radius:50%;"></span>Elena AI is Online</span>
+                </div>
+            </div>
+            <span class="close-modal" style="position:static; font-size: 20px;" onclick="toggleChatWindow()">&times;</span>
+        </div>
+        <div class="chat-messages" id="chat-messages-container">
+            <div class="chat-msg elena">
+                Hello! I am Elena, your autonomous AI Sales Representative. How can I help you scale your B2B sales pipeline today?
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-user-input" class="chat-input-field" placeholder="Ask Elena a question..." onkeypress="handleChatKeyPress(event)">
+            <button class="chat-send-btn" onclick="sendChatMessage()">Send</button>
+        </div>
+    </div>
+
     <!-- Interactive Simulation Scripts -->
     <script>
         const names = ["Robert", "Helena", "Satoshi", "Maria", "Gary"];
@@ -950,6 +1133,87 @@ LeadFlow.AI
 
             alert(`Payment submitted successfully!\n\nEmail: ${emailVal}\nTXID: ${txidVal}\n\nOur system will autonomously verify the transaction hash on the blockchain and activate your account within 30 minutes.`);
             closePaymentModal();
+        }
+
+        /* AI Live Chat Widget Functions */
+        function toggleChatWindow() {
+            const chatWindow = document.getElementById('chat-window-box');
+            if (chatWindow.style.display === 'flex') {
+                chatWindow.style.display = 'none';
+            } else {
+                chatWindow.style.display = 'flex';
+                document.getElementById('chat-user-input').focus();
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function sendChatMessage() {
+            const inputField = document.getElementById('chat-user-input');
+            const userMsgText = inputField.value.trim();
+            if (!userMsgText) return;
+
+            // Render user message on screen
+            const container = document.getElementById('chat-messages-container');
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-msg user';
+            userBubble.innerText = userMsgText;
+            container.appendChild(userBubble);
+            
+            // Clear input and scroll to bottom
+            inputField.value = '';
+            container.scrollTop = container.scrollHeight;
+
+            // Render a "typing..." placeholder for Elena
+            const typingBubble = document.createElement('div');
+            typingBubble.className = 'chat-msg elena';
+            typingBubble.id = 'elena-typing-indicator';
+            typingBubble.innerText = 'Elena is typing...';
+            container.appendChild(typingBubble);
+            container.scrollTop = container.scrollHeight;
+
+            // Make API Call securely to our Render Backend endpoint '/chat'
+            // Render has CORS enabled and forwards securely to OpenRouter!
+            const backendUrl = "https://elena-sdr-backend.onrender.com/chat";
+            
+            fetch(backendUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: userMsgText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove typing indicator
+                const indicator = document.getElementById('elena-typing-indicator');
+                if (indicator) indicator.remove();
+
+                // Render Elena's real response
+                const elenaBubble = document.createElement('div');
+                elenaBubble.className = 'chat-msg elena';
+                elenaBubble.innerText = data.reply || "Thanks for your message! Please leave your email here, and I will get back to you shortly.";
+                container.appendChild(elenaBubble);
+                container.scrollTop = container.scrollHeight;
+            })
+            .catch(error => {
+                console.error("Live Chat Error: ", error);
+                
+                // Remove typing indicator
+                const indicator = document.getElementById('elena-typing-indicator');
+                if (indicator) indicator.remove();
+
+                // Fallback answer
+                const elenaBubble = document.createElement('div');
+                elenaBubble.className = 'chat-msg elena';
+                elenaBubble.innerText = "Thanks for your message! I'm currently handling high traffic. Please drop your email here, and our team will get back to you within 5 minutes!";
+                container.appendChild(elenaBubble);
+                container.scrollTop = container.scrollHeight;
+            });
         }
     </script>
 </body>

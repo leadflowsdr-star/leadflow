@@ -117,7 +117,8 @@ def generate_ai_response_handling(prospect_email, reply_body, api_key):
     
     Analyze their response:
     1. If they are INTERESTED or asking for a meeting:
-       Draft a warm, polite reply. Share our Calendly booking link: "https://calendly.com/leadflow-elena/15min" to schedule a 15-minute Google Meet call.
+       Draft a warm, polite reply proposing a brief chat, but do NOT send a direct booking link yet. Say: "I'd love to share my calendar to find a time. Let me check with our founder, Amir, to coordinate and confirm the best slot, and we will get right back to you."
+       This is critical: we must coordinate and get owner approval first!
     2. If they have an OBJECTION (e.g. "We don't have budget", "How does it work?"):
        Politely handle the objection. Explain that we have a 100% free pilot to prove results.
     3. If they want to UNSUBSCRIBE (e.g. "Stop emailing me", "Not interested"):

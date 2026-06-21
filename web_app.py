@@ -61,10 +61,20 @@ def run_inbound_loop():
         time.sleep(900)
 
 class ElenaWebServer(http.server.SimpleHTTPRequestHandler):
-    """Simple HTTP Server to keep Render free web service alive and happy"""
+    """Simple HTTP Server to keep Render free web service alive and handle live chat API requests"""
+    
+    def do_OPTIONS(self):
+        """Handle CORS preflight requests"""
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+
     def do_GET(self):
         self.send_response(200)
         self.send_header("Content-type", "text/html; charset=utf-8")
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
         html = """
         <html>
@@ -86,6 +96,86 @@ class ElenaWebServer(http.server.SimpleHTTPRequestHandler):
         </html>
         """
         self.wfile.write(html.encode('utf-8'))
+
+    def do_POST(self):
+        """Handles POST requests, specifically the secure Live Chat API endpoint"""
+        if self.path == "/chat":
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length).decode('utf-8')
+            
+            try:
+                data = json.loads(post_data)
+                user_message = data.get("message", "")
+                
+                # Fetch config for OpenRouter API Key
+                config = load_config()
+                api_key = config.get("OPENROUTER_API_KEY")
+                
+                # Call OpenRouter to get AI live chat response
+                ai_answer = get_live_chat_ai_response(user_message, api_key)
+                
+                # Send response
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                
+                response_body = json.dumps({"reply": ai_answer})
+                self.wfile.write(response_body.encode('utf-8'))
+                
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+        else:
+            self.send_response(404)
+            self.end_headers()
+
+def get_live_chat_ai_response(user_message, api_key):
+    """Securely calls OpenRouter to get friendly & professional B2B answers for website visitors"""
+    url = "https://openrouter.ai/api/v1/chat/completions"
+    
+    system_prompt = """
+    You are Elena, the live AI Sales Representative for LeadFlow.AI. 
+    A visitor is on our website and has asked a question. 
+    Answer their question in a highly professional, expert, yet friendly and conversational tone.
+    
+    About LeadFlow.AI:
+    - We build autonomous AI SDR agents (like Elena) that scrape leads, deeply research company sites, write personalized cold outreach, and automate B2B booking.
+    - Our pricing: Starter ($499/mo, 1 active agent, 1k emails/mo) and Growth ($1,499/mo, 3 active agents, 4k emails/mo, deep research).
+    - We accept Credit Cards, PayPal, and Tether USDT (TRC-20: TDn3ZSiQTRE3UJ5Qk9BTun2cn9fWB7exix).
+    - We offer a risk-free 5-day trial (leads can register on our onboard.html page).
+    
+    Rules:
+    - Keep answers short, punchy, and clear (under 100 words).
+    - If they ask to book a meeting or get started, politely ask for their email address and suggest they use our onboarding form or schedule a call.
+    - You can write in English or Persian depending on what language the user speaks to you in! (If they speak Persian, answer in beautiful, friendly Persian).
+    """
+    
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    
+    data = {
+        "model": "google/gemma-4-31b-it:free",
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_message}
+        ]
+    }
+    
+    try:
+        import urllib.request
+        req = urllib.request.Request(url, data=json.dumps(data).encode('utf-8'), headers=headers)
+        with urllib.request.urlopen(req, timeout=12) as response:
+            res_data = json.loads(response.read().decode('utf-8'))
+            return res_data['choices'][0]['message']['content'].strip()
+    except Exception as e:
+        print(f"[!] Live Chat AI Error: {str(e)}")
+        return "Thanks for reaching out! I am currently processing several inquiries. Please leave your email address here, and I will get back to you within 5 minutes!"
 
 def start_web_server():
     """Starts the HTTP server on Render's specified port"""
