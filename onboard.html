@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFlow.AI - Client Onboarding & Campaign Configuration</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --bg-dark: #030712;
+            --bg-card: #0b1120;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.15);
+            --pink-accent: #ec4899;
+            --success: #10b981;
+            --text-white: #f9fafb;
+            --text-gray: #9ca3af;
+            --border-color: #1f2937;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            line-height: 1.6;
+            padding: 60px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(3, 7, 18, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 32px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 22px;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-gray);
+            font-size: 15px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 24px;
+        }
+
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-white);
+            margin-bottom: 8px;
+        }
+
+        .form-input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus, select:focus, textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent), #4f46e5);
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.6);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .success-icon {
+            font-size: 64px;
+            color: var(--success);
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo-area">
+            <div class="logo-icon">LF</div>
+            <span class="logo-text">LeadFlow.AI</span>
+        </div>
+
+        <!-- Form Area -->
+        <div id="onboard-form-container">
+            <h2>Campaign Setup & Onboarding</h2>
+            <p class="subtitle">Tell us about your company and ideal targets, and Elena will autonomously build your outbound B2B pipeline.</p>
+
+            <form id="onboard-form" onsubmit="submitOnboardingForm(event)">
+                <!-- Section 1: Client Info -->
+                <div class="form-section">
+                    <div class="form-section-title"><span>①</span> Company Information</div>
+                    <div class="form-group">
+                        <label for="client-name">Your Full Name</label>
+                        <input type="text" id="client-name" class="form-input" placeholder="e.g., Marcus Aurelius" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-website">Your Company Website URL</label>
+                        <input type="text" id="client-website" class="form-input" placeholder="e.g., mycompany.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-value-prop">Your Value Proposition (What do you sell & how does it help?)</label>
+                        <textarea id="client-value-prop" placeholder="e.g., We design high-converting e-commerce Webflow websites that increase checkout conversions by 25%." required></textarea>
+                    </div>
+                </div>
+
+                <!-- Section 2: Target ICP -->
+                <div class="form-section">
+                    <div class="form-section-title"><span>②</span> Target Audience (Ideal Customer Profile)</div>
+                    <div class="form-group">
+                        <label for="target-industry">What industries do you want to target?</label>
+                        <input type="text" id="target-industry" class="form-input" placeholder="e.g., E-commerce brands, Fintech startups, Marketing agencies" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="target-title">Target Decision Maker Roles / Titles</label>
+                        <input type="text" id="target-title" class="form-input" placeholder="e.g., Founder, CEO, VP of Growth, Marketing Director" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="target-geo">Target Locations / Countries</label>
+                        <input type="text" id="target-geo" class="form-input" placeholder="e.g., United States, United Kingdom, Canada, UAE" required>
+                    </div>
+                </div>
+
+                <!-- Section 3: Sending Preference -->
+                <div class="form-section" style="border: none; padding-bottom: 0;">
+                    <div class="form-section-title"><span>③</span> Outbound Mailbox Setup</div>
+                    <div class="form-group">
+                        <label for="mailbox-preference">How would you like to send your campaign?</label>
+                        <select id="mailbox-preference" required>
+                            <option value="leadflow-shared">Use LeadFlow's Pre-configured Safe Senders (Fastest Setup)</option>
+                            <option value="client-custom">Integrate My Own Domain/Inboxes (Highest Deliverability)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Deploy My AI SDR Campaign</button>
+            </form>
+        </div>
+
+        <!-- Success Message Area -->
+        <div id="success-container" class="success-message">
+            <div class="success-icon">✔</div>
+            <h2>Onboarding Successful!</h2>
+            <p style="color: var(--text-gray); margin-bottom: 24px;">Elena has received your configuration. Our system is currently scraping targets in your specified niche, personalizing pitches with Google Gemma 4, and preparing your outbound campaign.</p>
+            <p style="font-weight: bold; color: var(--accent);">We will notify you via email and begin booking meetings on your calendar!</p>
+        </div>
+    </div>
+
+    <script>
+        function submitOnboardingForm(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('client-name').value;
+            const website = document.getElementById('client-website').value;
+            const valueProp = document.getElementById('client-value-prop').value;
+            const industry = document.getElementById('target-industry').value;
+            
+            // In production, this can send a POST request with the onboarding data to your python server
+            // For now, let's play a gorgeous success animation
+            document.getElementById('onboard-form-container').style.display = 'none';
+            document.getElementById('success-container').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
