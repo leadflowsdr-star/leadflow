@@ -1,23 +1,12 @@
-# Render Blueprint Specification (render.yaml)
+# Render Free-Tier Blueprint Specification (render.yaml)
 # Developed autonomously by Elena AI SDR for LeadFlow.AI
-# This file enables 1-click zero-cost deployment of your entire backend on Render's Cloud!
+# This file enables 1-click 100% FREE deployment of your entire backend on Render's Free Web Service tier!
 
 services:
-  # 1. Background Worker for Inbox Monitoring (Elena Inbox Agent)
-  # This runs 24/7 in the cloud, monitoring elena92.leadflow@gmail.com and auto-replying using AI
-  - type: worker
-    name: elena-inbox-responder
+  - type: web
+    name: elena-sdr-backend
     env: python
+    plan: free # Explicitly set to Render's 100% Free plan
     buildCommand: pip install -r requirements.txt
-    startCommand: python inbox_agent.py
-    autoDeploy: true
-
-  # 2. Daily Cron Job for Outbound Campaigns (Elena Daily Campaign)
-  # This wakes up automatically every day, scrapes targets, personalizes emails, and sends them
-  - type: cron
-    name: elena-daily-outbound
-    env: python
-    schedule: "0 9 * * *" # Every day at 9:00 AM UTC
-    buildCommand: pip install -r requirements.txt
-    startCommand: python run_live_campaign.py
+    startCommand: python web_app.py
     autoDeploy: true
