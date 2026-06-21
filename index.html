@@ -505,6 +505,80 @@
             border-radius: 4px;
             border: 1px solid var(--border-color);
         }
+        /* Modern Payment Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(3, 7, 18, 0.9);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 480px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            text-align: center;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-gray);
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: white;
+        }
+
+        .modal h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .wallet-box {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #38bdf8;
+            word-break: break-all;
+            margin: 20px 0;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .wallet-box:hover {
+            border-color: var(--accent);
+        }
+
+        .copy-hint {
+            font-size: 11px;
+            color: var(--text-gray);
+            margin-top: 4px;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -624,7 +698,7 @@
                     <li>Inbox Monitoring & Sentiment analysis</li>
                     <li>Email Deliverability Warmup</li>
                 </ul>
-                <a href="#free-trial" class="btn btn-secondary" style="width: 100%; justify-content: center;">Deploy Starter Agent</a>
+                <button onclick="openCheckoutModal('Starter Agent', '$499')" class="btn btn-secondary" style="width: 100%; justify-content: center;">Deploy Starter Agent</button>
             </div>
 
             <div class="price-card popular">
@@ -641,7 +715,7 @@
                     <li>Objection Handling & Automated Booking</li>
                     <li>Custom CRM Integrations (Hubspot/Zapier)</li>
                 </ul>
-                <a href="#free-trial" class="btn btn-primary" style="width: 100%; justify-content: center;">Deploy Growth Team</a>
+                <button onclick="openCheckoutModal('Growth Team', '$1,499')" class="btn btn-primary" style="width: 100%; justify-content: center;">Deploy Growth Team</button>
             </div>
 
             <div class="price-card">
@@ -678,6 +752,36 @@
             <span class="payment-badge">Tether (USDT) / BTC</span>
         </div>
     </footer>
+
+    <!-- Crypto Payment Modal -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+            <div id="modal-icon" style="font-size: 40px; margin-bottom: 16px;">💎</div>
+            <h3 id="modal-title">Secure USDT Checkout</h3>
+            <p id="modal-desc" style="font-size: 14px; color: var(--text-gray); margin-bottom: 20px;">Deploy your AI SDR Agent instantly by making a transfer on the Tron Network.</p>
+            
+            <div style="text-align: left;">
+                <span style="font-size: 12px; color: var(--text-gray); font-weight: 700;">USDT TRC-20 ADDRESS:</span>
+                <div class="wallet-box" onclick="copyWalletAddress()">
+                    <span id="wallet-address">TYourUSDTTRC20WalletAddressWillBePlacedHere</span>
+                    <span class="copy-hint">Click to copy wallet address</span>
+                </div>
+            </div>
+
+            <div class="magnet-form" style="padding: 20px 0 0 0; border: none; background: transparent; max-width: 100%;">
+                <div class="form-group" style="text-align: left;">
+                    <label for="pay-email">Your Work Email Address</label>
+                    <input type="email" id="pay-email" class="form-input" placeholder="you@company.com">
+                </div>
+                <div class="form-group" style="text-align: left;">
+                    <label for="pay-txid">Transaction Hash / TXID</label>
+                    <input type="text" id="pay-txid" class="form-input" placeholder="Enter Tron TXID for verification">
+                </div>
+                <button class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 12px;" onclick="submitPayment()">Submit Payment Verification</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Interactive Simulation Scripts -->
     <script>
@@ -769,6 +873,39 @@ LeadFlow.AI
                 `;
                 appendLiveLog("booking", `[DRAFT GENERATED]\n\n${customDraft}`);
             }, 5000);
+        }
+
+        /* Payment Modal Functions */
+        function openCheckoutModal(planName, price) {
+            document.getElementById('payment-modal').style.display = 'flex';
+            document.getElementById('modal-title').innerText = `Secure USDT Checkout: ${planName}`;
+            document.getElementById('modal-desc').innerText = `Send exactly ${price} USDT on the TRON (TRC-20) network to deploy your agents.`;
+        }
+
+        function closePaymentModal() {
+            document.getElementById('payment-modal').style.display = 'none';
+        }
+
+        function copyWalletAddress() {
+            const address = document.getElementById('wallet-address').innerText;
+            navigator.clipboard.writeText(address).then(() => {
+                alert("Wallet address copied to clipboard!");
+            }).catch(err => {
+                console.error("Could not copy text: ", err);
+            });
+        }
+
+        function submitPayment() {
+            const emailVal = document.getElementById('pay-email').value;
+            const txidVal = document.getElementById('pay-txid').value;
+
+            if (!emailVal || !txidVal) {
+                alert("Please fill in both email and transaction hash/TXID!");
+                return;
+            }
+
+            alert(`Payment submitted successfully!\n\nEmail: ${emailVal}\nTXID: ${txidVal}\n\nOur system will autonomously verify the transaction hash on the blockchain and activate your account within 30 minutes.`);
+            closePaymentModal();
         }
     </script>
 </body>
