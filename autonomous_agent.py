@@ -187,13 +187,21 @@ def run_fully_autonomous_sdr(target_leads_list):
         if lead_id:
             print(f"[⚙ Agent Phase 3] Logged to database (lead_id: {lead_id}).")
             
-            # 3. Send Email with selected rotated sender
+        # 3. Send Email with selected rotated sender
             print(f"[✉ Agent Phase 4] Dispatched email using rotated inbox: <{sender_to_use['EMAIL']}>...")
             success = send_automated_email(sender_to_use, lead['email'], subject, body)
             
             # 4. Log Outreach success
             status = "sent" if success else "failed"
             log_outreach(lead_id, subject, body, sender_used=sender_to_use['EMAIL'], status=status)
+        
+        # 5. Auspicious Throttling Delay (Spreads emails throughout the lucky hours, preventing spam filters)
+        if index < len(target_leads_list) - 1:
+            # In simulation/mock mode we wait 1 second. In production we wait 15 minutes (900s) to drip-feed safely.
+            is_production = "sk-or-v1" in config.get("OPENROUTER_API_KEY", "")
+            sleep_time = 900 if is_production else 1
+            print(f"[⏳ Throttling] Elena pausing for {sleep_time}s to drip-feed emails throughout lucky hours...")
+            time.sleep(sleep_time)
         
         print("-" * 60)
         
