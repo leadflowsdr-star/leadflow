@@ -978,7 +978,14 @@
                     <label for="pay-txid">Transaction Hash / TXID</label>
                     <input type="text" id="pay-txid" class="form-input" placeholder="Enter Tron TXID for verification">
                 </div>
-                <button class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 12px;" onclick="submitPayment()">Submit Payment Verification</button>
+                
+                <!-- Explicit Action Buttons: Confirm and Cancel/Back -->
+                <button class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 16px; gap: 8px;" onclick="submitPayment()">
+                    ✔️ Confirm & Verify Payment
+                </button>
+                <button type="button" class="btn btn-secondary" style="width: 100%; justify-content: center; margin-top: 8px; gap: 8px; background: rgba(255,255,255,0.02); color: var(--text-gray);" onclick="closePaymentModal()">
+                    ❌ Cancel & Go Back
+                </button>
             </div>
         </div>
     </div>
