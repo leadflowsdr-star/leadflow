@@ -19,6 +19,7 @@ import time
 import datetime
 from scheduler import generate_bulk_leads_for_today, is_auspicious_hour
 from autonomous_agent import run_fully_autonomous_sdr, send_automated_email
+from blockchain_verifier import verify_tron_usdt_payment
 from inbox_agent import monitor_and_respond_to_replies
 
 PORT = int(os.environ.get("PORT", 10000))
@@ -187,6 +188,82 @@ LeadFlow.AI Operating Engine
                 self.end_headers()
                 self.wfile.write(json.dumps({"status": "success"}).encode('utf-8'))
                 
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+                
+        elif self.path == "/verify_payment":
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length).decode('utf-8')
+            
+            try:
+                data = json.loads(post_data)
+                txid = data.get("txid", "").strip()
+                email_addr = data.get("email", "").strip()
+                plan_name = data.get("plan_name", "Starter Agent").strip()
+                
+                # Determine expected price
+                expected_price = 499.0
+                if "Growth" in plan_name:
+                    expected_price = 1499.0
+                    
+                # Autonomously call the Tron Blockchain verifier script!
+                verified, msg = verify_tron_usdt_payment(txid, expected_price)
+                
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                
+                if verified:
+                    # Save verified purchase to database or log
+                    conn = sqlite3.connect("leadflow.db")
+                    cursor = conn.cursor()
+                    cursor.execute('''
+                    INSERT INTO campaigns (name, target_icp, status)
+                    VALUES (?, ?, ?)
+                    ''', (f"Campaign for {email_addr}", f"Plan: {plan_name}", "paid"))
+                    conn.commit()
+                    conn.close()
+                    
+                    # Send congratulations email to client
+                    config = load_config()
+                    sender = config["SENDERS"][0]
+                    
+                    client_subject = "✨ Your LeadFlow.AI Agent Deployment is Active!"
+                    client_body = f"""Hi there,
+
+This is Elena! I am thrilled to inform you that your payment of {expected_price} USDT has been VERIFIED autonomously on the Tron Blockchain!
+
+Details:
+- Plan: {plan_name}
+- Transaction Hash: {txid}
+- Status: ACTIVE / PAID
+
+Please proceed to configure your target audience and launch your first AI SDR campaign on our onboarding page:
+👉 https://leadflowsdr-star.github.io/leadflow/onboard.html
+
+Welcome to the future of B2B sales automation!
+
+Best,
+Elena
+LeadFlow.AI
+"""
+                    # Email the client
+                    send_automated_email(sender, email_addr, client_subject, client_body)
+                    
+                    # Email the owner
+                    owner_subject = f"💰 REVENUE ALERT: ${expected_price} USD Received from {email_addr}!"
+                    owner_body = f"Great news! A client ({email_addr}) has paid ${expected_price} USDT for the {plan_name}. Elena has verified the blockchain TXID ({txid}) and activated their campaign!"
+                    send_automated_email(sender, sender["EMAIL"], owner_subject, owner_body)
+                    
+                    self.wfile.write(json.dumps({"status": "verified", "message": msg}).encode('utf-8'))
+                else:
+                    self.wfile.write(json.dumps({"status": "failed", "message": msg}).encode('utf-8'))
+                    
             except Exception as e:
                 self.send_response(500)
                 self.send_header("Content-type", "application/json")

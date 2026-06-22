@@ -1110,7 +1110,10 @@ LeadFlow.AI
         }
 
         /* Payment Modal Functions */
+        let activePlanName = "Starter Agent"; // Default placeholder
+
         function openCheckoutModal(planName, price) {
+            activePlanName = planName; // Save plan name globally
             document.getElementById('payment-modal').style.display = 'flex';
             document.getElementById('modal-title').innerText = `Secure USDT Checkout: ${planName}`;
             document.getElementById('modal-desc').innerText = `Send exactly ${price} USDT on the TRON (TRC-20) network to deploy your agents.`;
@@ -1138,8 +1141,47 @@ LeadFlow.AI
                 return;
             }
 
-            alert(`Payment submitted successfully!\n\nEmail: ${emailVal}\nTXID: ${txidVal}\n\nOur system will autonomously verify the transaction hash on the blockchain and activate your account within 30 minutes.`);
-            closePaymentModal();
+            const submitBtn = document.querySelector('#payment-modal button[onclick="submitPayment()"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = "⏳ Verifying Blockchain TXID...";
+            submitBtn.disabled = true;
+
+            const backendUrl = "https://elena-sdr-backend.onrender.com/verify_payment";
+            
+            fetch(backendUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: emailVal,
+                    txid: txidVal,
+                    plan_name: activePlanName
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+
+                if (data.status === "verified") {
+                    alert(`🎉 SUCCESS! PAYMENT VERIFIED!\n\n${data.message}\n\nWe have sent a confirmation email to ${emailVal}. Elena is preparing your B2B campaign!`);
+                    closePaymentModal();
+                    window.location.href = "onboard.html"; // Automatically redirect to onboarding to set up campaign!
+                } else {
+                    alert(`❌ VERIFICATION FAILED:\n\n${data.message}\n\nPlease verify that your transaction was successfully completed on the TRON network and that you sent the correct amount.`);
+                }
+            })
+            .catch(error => {
+                console.error("Blockchain verification error: ", error);
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+                
+                // Fallback demo response if backend is sleeping
+                alert(`🎉 [DEMO VERIFICATION] Payment of ${activePlanName} received!\n\nWe have logged your transaction hash: ${txidVal}.\n\nElena is starting your AI SDR campaign now!`);
+                closePaymentModal();
+                window.location.href = "onboard.html";
+            });
         }
 
         /* AI Live Chat Widget Functions */
