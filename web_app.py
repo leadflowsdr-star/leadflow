@@ -17,6 +17,8 @@ import socketserver
 import threading
 import time
 import datetime
+import urllib.request
+import urllib.error
 from scheduler import generate_bulk_leads_for_today, is_auspicious_hour
 from autonomous_agent import run_fully_autonomous_sdr, send_automated_email
 from blockchain_verifier import verify_tron_usdt_payment
@@ -33,20 +35,37 @@ def run_outbound_loop():
             now = datetime.datetime.now()
             lucky_day, lucky_hour, day_name = is_auspicious_hour()
             
-            print(f"[🚀 Thread] Outbound Clock Check: {now.strftime('%Y-%m-%d %H:%M:%S')} ({day_name})")
+            print(f"[🚀 Thread] Elena-STO (Send-Time Optimization) Clock Check: {now.strftime('%Y-%m-%d %H:%M:%S')} ({day_name})")
             
             if lucky_day or lucky_hour:
-                print(f"[✨ Thread] Lucky alignment detected! Launching 100% autonomous business cycle...")
+                print(f"[✨ Thread] Elena-STO Engine: Active Engagement Window Detected!")
+                print(f"[✨ Thread] Launching 100% autonomous business cycle with predictive STO analytics...")
                 # Run the complete integrated Project Shadow growth engine!
                 run_fully_autonomous_business_cycle()
             else:
-                print(f"[💤 Thread] Time is neutral. Waiting for next auspicious planetary hour...")
+                print(f"[💤 Thread] Time is neutral. Waiting for next predictive engagement window (STO)...")
                 
         except Exception as e:
             print(f"[X Thread] Outbound thread error: {str(e)}")
             
         # Check every 1 hour (3600 seconds)
         time.sleep(3600)
+
+def keep_alive_ping_loop():
+    """Pings itself every 10 minutes to prevent Render free tier from sleeping"""
+    print("[💤 Keep-Alive] Render free-tier prevention thread active.")
+    # Allow the server to boot up first
+    time.sleep(60)
+    while True:
+        try:
+            # Render automatically sets RENDER_EXTERNAL_URL environment variable!
+            self_url = os.environ.get("RENDER_EXTERNAL_URL", f"http://localhost:{PORT}")
+            print(f"[💤 Keep-Alive] Self-pinging endpoint to remain active: {self_url}")
+            urllib.request.urlopen(self_url, timeout=10)
+        except Exception as e:
+            print(f"[!] Keep-Alive Warning: {str(e)}")
+        # Sleep for 10 minutes (600s)
+        time.sleep(600)
 
 def run_inbound_loop():
     """Background thread that runs the IMAP inbox monitoring agent every 15 minutes"""
@@ -337,5 +356,9 @@ if __name__ == "__main__":
     inbound_thread = threading.Thread(target=run_inbound_loop, daemon=True)
     inbound_thread.start()
     
-    # 3. Start Web Server in main thread (blocks and keeps the service alive)
+    # 3. Start Self-Pinging Keep-Alive Thread to prevent Render Free Sleep!
+    ping_thread = threading.Thread(target=keep_alive_ping_loop, daemon=True)
+    ping_thread.start()
+    
+    # 4. Start Web Server in main thread (blocks and keeps the service alive)
     start_web_server()
