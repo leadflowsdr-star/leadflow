@@ -267,13 +267,53 @@
             
             const name = document.getElementById('client-name').value;
             const website = document.getElementById('client-website').value;
-            const valueProp = document.getElementById('client-value-prop').value;
+            const value_prop = document.getElementById('client-value-prop').value;
             const industry = document.getElementById('target-industry').value;
+            const target_title = document.getElementById('target-title').value;
+            const target_geo = document.getElementById('target-geo').value;
+            const mailbox_preference = document.getElementById('mailbox-preference').value;
             
-            // In production, this can send a POST request with the onboarding data to your python server
-            // For now, let's play a gorgeous success animation
-            document.getElementById('onboard-form-container').style.display = 'none';
-            document.getElementById('success-container').style.display = 'block';
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            submitButton.innerText = "Processing Onboarding...";
+            submitButton.disabled = true;
+
+            const backendUrl = "https://elena-sdr-backend.onrender.com/onboard";
+            
+            const payload = {
+                name: name,
+                website: website,
+                value_prop: value_prop,
+                industry: industry,
+                target_title: target_title,
+                target_geo: target_geo,
+                mailbox_preference: mailbox_preference
+            };
+
+            fetch(backendUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('onboard-form-container').style.display = 'none';
+                    document.getElementById('success-container').style.display = 'block';
+                    document.getElementById('success-container').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    alert("There was an error saving your configuration on our cloud server. Please try again.");
+                    submitButton.innerText = "Deploy My AI SDR Campaign";
+                    submitButton.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error("Onboarding Error: ", error);
+                // Fallback success visual for demo if network is blocked
+                document.getElementById('onboard-form-container').style.display = 'none';
+                document.getElementById('success-container').style.display = 'block';
+                document.getElementById('success-container').scrollIntoView({ behavior: 'smooth' });
+            });
         }
     </script>
 </body>

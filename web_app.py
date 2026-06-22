@@ -18,7 +18,7 @@ import threading
 import time
 import datetime
 from scheduler import generate_bulk_leads_for_today, is_auspicious_hour
-from autonomous_agent import run_fully_autonomous_sdr
+from autonomous_agent import run_fully_autonomous_sdr, send_automated_email
 from inbox_agent import monitor_and_respond_to_replies
 
 PORT = int(os.environ.get("PORT", 10000))
@@ -98,7 +98,7 @@ class ElenaWebServer(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(html.encode('utf-8'))
 
     def do_POST(self):
-        """Handles POST requests, specifically the secure Live Chat API endpoint"""
+        """Handles POST requests, specifically secure Live Chat and Onboarding API endpoints"""
         if self.path == "/chat":
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length).decode('utf-8')
@@ -122,6 +122,70 @@ class ElenaWebServer(http.server.SimpleHTTPRequestHandler):
                 
                 response_body = json.dumps({"reply": ai_answer})
                 self.wfile.write(response_body.encode('utf-8'))
+                
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+                
+        elif self.path == "/onboard":
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length).decode('utf-8')
+            
+            try:
+                data = json.loads(post_data)
+                
+                # Save client details to database
+                conn = sqlite3.connect("leadflow.db")
+                cursor = conn.cursor()
+                cursor.execute('''
+                INSERT INTO onboarded_clients (full_name, website, value_prop, target_industry, target_title, target_geo, mailbox_preference)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                ''', (
+                    data.get("name"),
+                    data.get("website"),
+                    data.get("value_prop"),
+                    data.get("industry"),
+                    data.get("target_title"),
+                    data.get("target_geo"),
+                    data.get("mailbox_preference")
+                ))
+                conn.commit()
+                conn.close()
+                
+                # Send confirmation/notification email using our SMTP
+                config = load_config()
+                sender = config["SENDERS"][0]
+                
+                subject = f"🔔 Project Shadow Alert: New Client Onboarded ({data.get('name')})!"
+                body = f"""Hi Owner,
+
+Project Shadow has successfully onboarded a new client autonomously!
+
+Client Details:
+- Name: {data.get('name')}
+- Company Website: {data.get('website')}
+- Value Proposition: {data.get('value_prop')}
+- Target Industries: {data.get('industry')}
+- Target Titles: {data.get('target_title')}
+- Target Geo: {data.get('target_geo')}
+- Mailbox Preference: {data.get('mailbox_preference')}
+
+Elena has logged this client in 'leadflow.db' and is preparing their prospecting list.
+
+Best,
+Elena
+LeadFlow.AI Operating Engine
+"""
+                send_automated_email(sender, sender["EMAIL"], subject, body)
+                
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "success"}).encode('utf-8'))
                 
             except Exception as e:
                 self.send_response(500)

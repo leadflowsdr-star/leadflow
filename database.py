@@ -19,6 +19,21 @@ def init_db():
     )
     ''')
 
+    # Table for storing onboarded clients
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS onboarded_clients (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        full_name TEXT NOT NULL,
+        website TEXT NOT NULL,
+        value_prop TEXT,
+        target_industry TEXT,
+        target_title TEXT,
+        target_geo TEXT,
+        mailbox_preference TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    ''')
+
     # Table for storing prospects/leads
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS leads (
