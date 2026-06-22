@@ -21,12 +21,13 @@ from scheduler import generate_bulk_leads_for_today, is_auspicious_hour
 from autonomous_agent import run_fully_autonomous_sdr, send_automated_email
 from blockchain_verifier import verify_tron_usdt_payment
 from inbox_agent import monitor_and_respond_to_replies
+from autonomous_grower import run_fully_autonomous_business_cycle
 
 PORT = int(os.environ.get("PORT", 10000))
 
 def run_outbound_loop():
-    """Background thread that runs the outbound campaign scheduler every 24 hours during auspicious times"""
-    print("[🚀 Thread] Outbound Campaign Scheduler thread started.")
+    """Background thread that runs the 100% autonomous business loop (Outbound + Inbound) every 24 hours during auspicious times"""
+    print("[🚀 Thread] Strategic Autopilot Campaign thread started.")
     while True:
         try:
             now = datetime.datetime.now()
@@ -35,9 +36,9 @@ def run_outbound_loop():
             print(f"[🚀 Thread] Outbound Clock Check: {now.strftime('%Y-%m-%d %H:%M:%S')} ({day_name})")
             
             if lucky_day or lucky_hour:
-                print(f"[✨ Thread] Lucky alignment detected! Launching daily campaign...")
-                today_leads = generate_bulk_leads_for_today()
-                run_fully_autonomous_sdr(today_leads)
+                print(f"[✨ Thread] Lucky alignment detected! Launching 100% autonomous business cycle...")
+                # Run the complete integrated Project Shadow growth engine!
+                run_fully_autonomous_business_cycle()
             else:
                 print(f"[💤 Thread] Time is neutral. Waiting for next auspicious planetary hour...")
                 
