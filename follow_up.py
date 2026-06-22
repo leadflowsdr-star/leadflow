@@ -61,42 +61,10 @@ def run_follow_up_campaign():
     print("========================================================")
     print("       ⚡ ELENA OUTBOUND - AUTOMATED FOLLOW-UP ⚡        ")
     print("========================================================")
-    
-    leads_due = find_leads_due_for_followup()
-    
-    if not leads_due:
-        print("[*] Checked database: All campaigns are fresh. No leads are currently due for follow-ups (requires 3+ days since first send).")
-        return
-        
-    print(f"[*] Found {len(leads_due)} leads due for a personalized follow-up.")
-    config = load_config()
-    sender_config = config["SENDERS"][0]
-    
-    for lead in leads_due:
-        lead_id, first_name, company, email_addr, orig_subject, sent_at = lead
-        print(f"\n[*] Processing follow-up for {first_name} @ {company} ({email_addr})...")
-        
-        subject, body = generate_follow_up_content(first_name, company)
-        
-        # In actual follow-ups, we send as a reply to the original thread if possible, or as a new quick float-up
-        print(f"[✉] Sending follow-up: '{subject}'...")
-        success = send_automated_email(sender_config, email_addr, subject, body)
-        
-        if success:
-            # Update database outreach log or insert a new follow-up log
-            conn = sqlite3.connect(DB_NAME)
-            cursor = conn.cursor()
-            cursor.execute('''
-            INSERT INTO outreach_logs (lead_id, subject, body, status)
-            VALUES (?, ?, ?, ?)
-            ''', (lead_id, subject, body, "sent_followup_1"))
-            conn.commit()
-            conn.close()
-            print(f"[✔] Follow-up 1 logged in database for {first_name}.")
-            
-    print("\n========================================================")
-    print("🎉 SUCCESS: Follow-up automation cycle complete.")
+    print("[⚠️ OUTBOUND PAUSED] Outbound follow-ups have been PAUSED by the Owner until further notice.")
+    print("Zero follow-up emails will be dispatched. Elena is standing by.")
     print("========================================================")
+    return
 
 if __name__ == "__main__":
     run_follow_up_campaign()
