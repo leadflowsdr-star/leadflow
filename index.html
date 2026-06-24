@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeadFlow.AI - Deploy Autonomous AI SDR Agents to Book B2B Meetings</title>
+    <title>LeadFlow.AI - Autonomous Cosmic AI SDR Agents | Outbound sales on Autopilot</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
         
         :root {
-            --bg-dark: #030014;
-            --bg-card: rgba(11, 15, 30, 0.45);
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.25);
-            --pink-accent: #d946ef;
+            --bg-dark: #02000a;
+            --bg-card: rgba(10, 10, 24, 0.45);
+            --accent-indigo: #6366f1;
+            --accent-pink: #ec4899;
+            --accent-cyan: #06b6d4;
+            --accent-violet: #8b5cf6;
+            --accent-gold: #f59e0b;
             --success: #10b981;
             --text-white: #f9fafb;
             --text-gray: #9ca3af;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #d946ef 100%);
+            --border-color: rgba(255, 255, 255, 0.06);
+            --glow-color: rgba(99, 102, 241, 0.3);
         }
 
         * {
@@ -33,60 +35,90 @@
             color: var(--text-white);
             overflow-x: hidden;
             line-height: 1.6;
-            perspective: 1000px; /* Activates 3D space for the entire body */
+            perspective: 2000px;
         }
 
-        /* 3D Glowing Auroras in the Background */
-        .glowing-orb {
+        /* Breathtaking Animated Cosmic Mesh Gradients */
+        .cosmic-mesh {
             position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(217, 70, 239, 0.05) 50%, rgba(3, 0, 20, 0) 100%);
-            filter: blur(120px);
-            z-index: -2;
-            pointer-events: none;
-            animation: floatOrb 25s infinite alternate ease-in-out;
-        }
-
-        .orb-1 { top: -100px; left: -100px; background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(3,0,20,0) 70%); }
-        .orb-2 { top: 400px; right: -200px; background: radial-gradient(circle, rgba(217, 70, 239, 0.15) 0%, rgba(3,0,20,0) 70%); animation-delay: -5s; }
-        .orb-3 { bottom: 200px; left: 10%; background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(3,0,20,0) 70%); animation-delay: -10s; }
-
-        @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(80px, 50px) scale(1.1); }
-            100% { transform: translate(-40px, -80px) scale(0.9); }
-        }
-
-        /* Grid Background Pattern */
-        .bg-grid {
-            position: absolute;
+            width: 100%;
+            height: 150vh;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-            background-size: 40px 40px;
             z-index: -3;
+            overflow: hidden;
             pointer-events: none;
         }
 
-        /* Navigation */
+        .aurora {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+            mix-blend-mode: screen;
+            opacity: 0.18;
+            pointer-events: none;
+        }
+
+        .aurora-1 { width: 600px; height: 600px; background: var(--accent-indigo); top: -200px; left: -100px; animation: drift 15s infinite alternate ease-in-out; }
+        .aurora-2 { width: 500px; height: 500px; background: var(--accent-pink); top: 200px; right: -100px; animation: drift 18s infinite alternate-reverse ease-in-out; }
+        .aurora-3 { width: 700px; height: 700px; background: var(--accent-cyan); top: 500px; left: 10%; animation: drift 22s infinite alternate ease-in-out; }
+        .aurora-4 { width: 400px; height: 400px; background: var(--accent-gold); bottom: 100px; right: 20%; opacity: 0.1; animation: drift 14s infinite alternate ease-in-out; }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate(120px, 80px) scale(1.15) rotate(180deg); }
+            100% { transform: translate(-60px, -120px) scale(0.9) rotate(360deg); }
+        }
+
+        /* 3D Floating Cyber Crystals / Background Elements */
+        .cyber-element {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+            pointer-events: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: floatCrystal 8s infinite ease-in-out alternate;
+        }
+
+        .crystal-1 { width: 80px; height: 80px; border-radius: 20px; top: 15%; left: 8%; transform: rotate(15deg); }
+        .crystal-2 { width: 120px; height: 120px; border-radius: 30px; top: 45%; right: 5%; transform: rotate(-25deg); animation-delay: -3s; }
+        .crystal-3 { width: 60px; height: 60px; border-radius: 50%; top: 75%; left: 15%; animation-delay: -5s; }
+
+        @keyframes floatCrystal {
+            0% { transform: translateY(0) rotate(0deg) translateZ(0); }
+            100% { transform: translateY(-30px) rotate(15deg) translateZ(50px); }
+        }
+
+        /* Grid Layer */
+        .grid-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Navigation with Liquid Blur */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 80px;
+            padding: 24px 80px;
             border-bottom: 1px solid var(--border-color);
-            background: rgba(3, 0, 20, 0.7);
-            backdrop-filter: blur(16px);
+            background: rgba(2, 0, 10, 0.65);
+            backdrop-filter: blur(20px);
             position: sticky;
             top: 0;
             z-index: 100;
-            transition: all 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 20px; }
         }
 
         .logo {
@@ -95,34 +127,23 @@
             gap: 12px;
             text-decoration: none;
             color: white;
-            font-weight: 800;
-            font-size: 24px;
-            letter-spacing: -0.5px;
+            font-weight: 900;
+            font-size: 26px;
+            letter-spacing: -1.5px;
         }
 
         .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: var(--gradient-primary);
-            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent-indigo) 0%, var(--accent-pink) 50%, var(--accent-cyan) 100%);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
-            font-weight: 800;
-            box-shadow: 0 0 20px var(--accent-glow);
+            font-weight: 900;
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.5);
             position: relative;
-        }
-
-        .logo-icon::after {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            border-radius: 14px;
-            background: var(--gradient-primary);
-            z-index: -1;
-            opacity: 0.5;
-            filter: blur(4px);
         }
 
         .nav-links {
@@ -131,61 +152,55 @@
             list-style: none;
         }
 
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
         .nav-links a {
             color: var(--text-gray);
             text-decoration: none;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             transition: all 0.3s;
-            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .nav-links a:hover {
             color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -6px; left: 0;
-            width: 0; height: 2px;
-            background: var(--gradient-primary);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
+        /* Breathtaking Buttons with Animated Border Gradients */
         .btn {
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 700;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 800;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            border: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            border: none;
             position: relative;
-            overflow: hidden;
+            z-index: 1;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .btn-primary {
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, var(--accent-indigo) 0%, var(--accent-pink) 100%);
             color: white;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.35);
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.35);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.5);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.55);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             color: white;
             border: 1px solid var(--border-color);
             backdrop-filter: blur(10px);
@@ -193,148 +208,259 @@
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
 
         /* Hero Section */
         .hero {
-            padding: 120px 80px 100px 80px;
+            padding: 140px 80px 100px 80px;
             max-width: 1200px;
             margin: 0 auto;
             text-align: center;
             position: relative;
         }
 
-        .hero-badge {
-            background: rgba(99, 102, 241, 0.08);
-            border: 1px solid rgba(99, 102, 241, 0.25);
-            color: #a5b4fc;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 700;
-            display: inline-block;
-            margin-bottom: 32px;
-            letter-spacing: 0.5px;
-            backdrop-filter: blur(10px);
-            animation: pulseGlow 2s infinite alternate;
+        @media (max-width: 768px) {
+            .hero { padding: 100px 20px; }
         }
 
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.1); }
-            100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); border-color: rgba(99, 102, 241, 0.5); }
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 32px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 0 30px rgba(255,255,255,0.05);
         }
 
         .hero h1 {
-            font-size: 68px;
-            font-weight: 850;
-            line-height: 1.1;
-            margin-bottom: 28px;
-            letter-spacing: -2px;
-            background: linear-gradient(to right, #fff 30%, #c7d2fe, #f472b6);
+            font-size: 76px;
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 32px;
+            letter-spacing: -3px;
+            background: linear-gradient(135deg, #fff 20%, #a5b4fc 50%, #f472b6 80%, #22d3ee 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 20px;
+            font-size: 22px;
             color: var(--text-gray);
-            max-width: 800px;
-            margin: 0 auto 48px auto;
+            max-width: 850px;
+            margin: 0 auto 56px auto;
             font-weight: 400;
         }
 
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 80px;
+        /* 3D Interactive Terminal & SVG AI Core Orbit */
+        .hero-showcase {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 60px;
+            text-align: left;
         }
 
-        /* 3D Interactive Terminal Container */
-        .demo-container-3d-wrap {
-            perspective: 2000px; /* Deep perspective for terminal tilting */
-            max-width: 1000px;
-            margin: 0 auto;
+        @media (max-width: 990px) {
+            .hero-showcase { grid-template-columns: 1fr; text-align: center; }
+        }
+
+        /* 3D Tilting Terminal */
+        .terminal-wrap {
+            perspective: 2000px;
         }
 
         .demo-container {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 24px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(99, 102, 241, 0.15);
+            border-radius: 28px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 60px rgba(99,102,241,0.15);
             overflow: hidden;
-            text-align: left;
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out, box-shadow 0.3s;
-            backdrop-filter: blur(20px);
-        }
-
-        .demo-container:hover {
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9), 0 0 70px rgba(217, 70, 239, 0.25);
+            backdrop-filter: blur(25px);
         }
 
         .demo-header {
-            background-color: rgba(6, 10, 19, 0.8);
-            padding: 18px 24px;
+            background-color: rgba(4, 3, 15, 0.85);
+            padding: 20px 28px;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .window-dots {
-            display: flex;
-            gap: 8px;
-        }
-
-        .dot {
-            width: 13px;
-            height: 13px;
-            border-radius: 50%;
-        }
-        .dot-red { background-color: #ef4444; }
-        .dot-yellow { background-color: #f59e0b; }
-        .dot-green { background-color: #10b981; }
-
         .demo-terminal {
             padding: 32px;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
+            font-size: 13.5px;
             color: var(--success);
             height: 380px;
             overflow-y: auto;
-            background-color: rgba(3, 6, 12, 0.85);
+            background-color: rgba(2, 0, 10, 0.9);
         }
 
-        .log-line {
-            margin-bottom: 12px;
-            line-height: 1.6;
+        /* AI Interactive Orbit SVG Illustration (Super Creative!) */
+        .orbit-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 450px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .log-timestamp {
-            color: var(--accent);
-            margin-right: 12px;
-            font-weight: bold;
+        .orbit-svg {
+            width: 100%;
+            height: 100%;
+            animation: rotateOrbit 40s infinite linear;
         }
 
-        .log-tag {
+        @keyframes rotateOrbit {
+            to { transform: rotate(360deg); }
+        }
+
+        .orbit-core {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ec4899 0%, #6366f1 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 18px;
+            box-shadow: 0 0 50px rgba(99,102,241,0.6);
+            animation: pulseCore 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulseCore {
+            0% { transform: scale(0.95); box-shadow: 0 0 35px rgba(236,72,153,0.5); }
+            100% { transform: scale(1.05); box-shadow: 0 0 60px rgba(99,102,241,0.8); }
+        }
+
+        /* Breathtaking ROI Calculator Widget */
+        .roi-calculator {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 32px;
+            padding: 48px;
+            max-width: 800px;
+            margin: 100px auto;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            text-align: left;
+        }
+
+        .roi-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .roi-header h3 {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slider-group {
+            margin-bottom: 40px;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: 700;
+            color: #a5b4fc;
+            margin-bottom: 16px;
+        }
+
+        .slider-input {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 10px;
+            border-radius: 5px;
             background: rgba(255,255,255,0.05);
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            margin-right: 12px;
-            font-weight: bold;
-            border: 1px solid rgba(255,255,255,0.05);
+            outline: none;
+            border: 1px solid var(--border-color);
         }
 
-        .log-tag.prospector { color: #f59e0b; border-color: rgba(245, 158, 11, 0.2); background: rgba(245, 158, 11, 0.05); }
-        .log-tag.researcher { color: #3b82f6; border-color: rgba(59, 130, 246, 0.2); background: rgba(59, 130, 246, 0.05); }
-        .log-tag.copywriter { color: #ec4899; border-color: rgba(236, 72, 153, 0.2); background: rgba(236, 72, 153, 0.05); }
-        .log-tag.booking { color: #10b981; border-color: rgba(16, 185, 129, 0.2); background: rgba(16, 185, 129, 0.05); }
+        .slider-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-pink));
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--accent-indigo);
+            transition: transform 0.1s;
+        }
 
-        /* How It Works Section */
+        .slider-input::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .roi-grid { grid-template-columns: 1fr; }
+        }
+
+        .roi-card {
+            background-color: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .roi-card h4 {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .roi-card .val {
+            font-size: 32px;
+            font-weight: 850;
+            background: linear-gradient(to right, #fff, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .roi-card.savings {
+            border-color: var(--success);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+
+        .roi-card.savings .val {
+            background: linear-gradient(to right, #34d399, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glass Cards Section */
         .features {
             padding: 120px 80px;
             max-width: 1200px;
@@ -350,76 +476,62 @@
             font-size: 44px;
             font-weight: 800;
             margin-bottom: 20px;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
             background: linear-gradient(to right, #fff, #c7d2fe);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .section-header p {
-            color: var(--text-gray);
-            font-size: 18px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
         }
 
-        /* Futuristic Glass Cards with Glow on Hover */
         .feature-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 40px;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border-radius: 28px;
+            padding: 48px;
             backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 24px;
-            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
-            opacity: 0;
-            z-index: -1;
-            transition: opacity 0.4s;
-            filter: blur(20px);
         }
 
         .feature-card:hover {
             transform: translateY(-8px);
-            border-color: rgba(255,255,255,0.2);
-            background-color: rgba(11, 15, 30, 0.7);
+            border-color: rgba(255,255,255,0.15);
+            background-color: rgba(10, 10, 24, 0.7);
         }
 
-        .feature-card:hover::before {
-            opacity: 0.15;
+        /* Hover-Glow border tracking */
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 28px;
+            background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(255,255,255,0.06), transparent 40%);
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .feature-icon {
-            width: 56px;
-            height: 56px;
-            background-color: rgba(99, 102, 241, 0.08);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 14px;
+        .feature-icon-box {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--accent);
-            margin-bottom: 28px;
-            font-weight: 800;
-            font-size: 24px;
-            text-shadow: 0 0 10px var(--accent-glow);
+            font-size: 26px;
+            margin-bottom: 32px;
+            color: var(--accent-indigo);
+            text-shadow: 0 0 10px rgba(99,102,241,0.2);
         }
 
         .feature-card h3 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
             margin-bottom: 16px;
         }
@@ -429,46 +541,29 @@
             font-size: 15px;
         }
 
-        /* Live Free Trial Lead Magnet */
+        /* Lead Magnet */
         .lead-magnet {
             padding: 80px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(217, 70, 239, 0.03) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            border-radius: 32px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(217, 70, 239, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(15px);
+            border-radius: 36px;
             max-width: 1100px;
             margin: 100px auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 60px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .lead-magnet::before {
-            content: '';
-            position: absolute;
-            top: -150px; right: -150px;
-            width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(217, 70, 239, 0.1) 0%, transparent 70%);
-            filter: blur(50px);
-            pointer-events: none;
         }
 
         @media (max-width: 900px) {
-            .lead-magnet {
-                flex-direction: column;
-                padding: 48px;
-                gap: 40px;
-            }
+            .lead-magnet { flex-direction: column; padding: 48px; gap: 40px; }
         }
 
         .magnet-text h3 {
-            font-size: 36px;
+            font-size: 38px;
             font-weight: 800;
             margin-bottom: 16px;
-            letter-spacing: -0.5px;
             background: linear-gradient(to right, #fff, #c7d2fe);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -477,18 +572,18 @@
         .magnet-text p {
             color: var(--text-gray);
             font-size: 16px;
-            max-width: 520px;
+            max-width: 500px;
         }
 
         .magnet-form {
-            background-color: rgba(3, 6, 12, 0.6);
+            background-color: rgba(2, 0, 10, 0.6);
             padding: 40px;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             width: 100%;
             max-width: 460px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .form-group {
@@ -501,13 +596,12 @@
             color: #a5b4fc;
             margin-bottom: 8px;
             font-weight: 600;
-            letter-spacing: 0.5px;
         }
 
         .form-input {
             width: 100%;
             padding: 14px 18px;
-            background-color: rgba(255,255,255,0.02);
+            background-color: rgba(255,255,255,0.01);
             border: 1px solid var(--border-color);
             border-radius: 10px;
             color: white;
@@ -517,17 +611,15 @@
         }
 
         .form-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 12px var(--accent-glow);
-            background-color: rgba(255,255,255,0.04);
+            border-color: var(--accent-indigo);
+            box-shadow: 0 0 12px var(--glow-color);
         }
 
-        /* Pricing Section */
+        /* Pricing Grid */
         .pricing {
             padding: 120px 24px;
             max-width: 1200px;
             margin: 0 auto;
-            position: relative;
         }
 
         .pricing-grid {
@@ -553,20 +645,20 @@
         .price-card:hover {
             transform: translateY(-8px);
             border-color: rgba(255,255,255,0.15);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
         }
 
         .price-card.popular {
-            border-color: var(--accent);
+            border-color: var(--accent-indigo);
             box-shadow: 0 20px 50px rgba(99, 102, 241, 0.15);
-            background: linear-gradient(180deg, rgba(11, 15, 30, 0.45) 0%, rgba(99, 102, 241, 0.05) 100%);
+            background: linear-gradient(180deg, rgba(10, 10, 24, 0.45) 0%, rgba(99, 102, 241, 0.04) 100%);
         }
 
         .popular-badge {
             position: absolute;
             top: -15px;
             right: 32px;
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-pink));
             color: white;
             font-size: 11px;
             font-weight: 700;
@@ -574,7 +666,7 @@
             border-radius: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(217, 70, 239, 0.4);
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
         }
 
         .price-header h3 {
@@ -585,7 +677,7 @@
 
         .price-amount {
             font-size: 52px;
-            font-weight: 850;
+            font-weight: 900;
             margin: 24px 0;
             background: linear-gradient(to right, #fff, #c7d2fe);
             -webkit-background-clip: text;
@@ -630,7 +722,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(3, 0, 20, 0.95);
+            background-color: rgba(2, 0, 10, 0.95);
             backdrop-filter: blur(12px);
             align-items: center;
             justify-content: center;
@@ -678,13 +770,13 @@
             font-size: 26px;
             font-weight: 800;
             margin-bottom: 8px;
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .wallet-box {
-            background-color: rgba(255,255,255,0.02);
+            background-color: rgba(255,255,255,0.01);
             border: 1px solid var(--border-color);
             border-radius: 14px;
             padding: 18px;
@@ -699,8 +791,8 @@
         }
 
         .wallet-box:hover {
-            border-color: var(--accent);
-            background-color: rgba(255,255,255,0.04);
+            border-color: var(--accent-indigo);
+            background-color: rgba(255,255,255,0.03);
         }
 
         .copy-hint {
@@ -717,7 +809,7 @@
             right: 30px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-pink));
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -774,7 +866,7 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-pink));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -822,7 +914,7 @@
         }
 
         .chat-msg.user {
-            background-color: var(--accent);
+            background-color: var(--accent-indigo);
             color: white;
             align-self: flex-end;
             border-bottom-right-radius: 4px;
@@ -848,11 +940,11 @@
         }
 
         .chat-input-field:focus {
-            border-color: var(--accent);
+            border-color: var(--accent-indigo);
         }
 
         .chat-send-btn {
-            background-color: var(--accent);
+            background-color: var(--accent-indigo);
             border: none;
             color: white;
             padding: 10px 16px;
@@ -869,11 +961,19 @@
 </head>
 <body>
 
-    <!-- 3D Background Orbs -->
-    <div class="glowing-orb orb-1"></div>
-    <div class="glowing-orb orb-2"></div>
-    <div class="glowing-orb orb-3"></div>
-    <div class="bg-grid"></div>
+    <!-- Breathtaking Cosmic Background -->
+    <div class="cosmic-mesh">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="aurora aurora-3"></div>
+        <div class="aurora aurora-4"></div>
+    </div>
+    <div class="grid-layer"></div>
+
+    <!-- Floating Cyber Crystals -->
+    <div class="cyber-element crystal-1"></div>
+    <div class="cyber-element crystal-2"></div>
+    <div class="cyber-element crystal-3"></div>
 
     <!-- Navigation -->
     <nav>
@@ -899,27 +999,104 @@
             <button onclick="startVisualDemo()" class="btn btn-secondary">Watch Agent Live Run</button>
         </div>
 
-        <!-- 3D Tilting Terminal Demo Box -->
-        <div class="demo-container-3d-wrap" id="demo">
-            <div class="demo-container" id="tilting-card">
-                <div class="demo-header">
-                    <div class="window-dots">
-                        <span class="dot dot-red"></span>
-                        <span class="dot dot-yellow"></span>
-                        <span class="dot dot-green"></span>
+        <!-- 3D Interactive Terminal and AI Orbit Illustration -->
+        <div class="hero-showcase">
+            <!-- Left Column: 3D Tilting Terminal -->
+            <div class="terminal-wrap" id="demo">
+                <div class="demo-container" id="tilting-card">
+                    <div class="demo-header">
+                        <div class="window-dots">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <div style="font-size: 11px; color: var(--text-gray); font-weight: 600;">AGENT MONITOR: ACTIVE_SESSION</div>
+                        <div><span style="color: var(--success); font-weight: bold; font-size: 12px;">● LIVE RUNNING</span></div>
                     </div>
-                    <div style="font-size: 11px; color: var(--text-gray); font-weight: 600;">AGENT MONITOR: ACTIVE_SESSION</div>
-                    <div><span style="color: var(--success); font-weight: bold; font-size: 12px;">● LIVE RUNNING</span></div>
+                    <div class="demo-terminal" id="terminal-screen">
+                        <div class="log-line"><span class="log-timestamp">[08:21:05]</span><span class="log-tag prospector">PROSPECTOR</span>Booting outbound agent queue. Targeting: B2B Technology & SaaS founders...</div>
+                        <div class="log-line"><span class="log-timestamp">[08:21:20]</span><span class="log-tag researcher">RESEARCHER</span>Scraped "CloudBase Systems". Extracted metadata: Cloud backup platform. News: Recruited new VP of Engineering last week.</div>
+                        <div class="log-line"><span class="log-timestamp">[08:21:44]</span><span class="log-tag copywriter">COPYWRITER</span>Generated custom email for "Alex Turner" (CEO of CloudBase) based on VP hiring signal.</div>
+                        <div class="log-line"><span class="log-timestamp">[08:22:00]</span><span class="log-tag booking">BOOKING</span>Email sent successfully. Real-time inbox tracking activated...</div>
+                    </div>
                 </div>
-                <div class="demo-terminal" id="terminal-screen">
-                    <div class="log-line"><span class="log-timestamp">[08:21:05]</span><span class="log-tag prospector">PROSPECTOR</span>Booting outbound agent queue. Targeting: B2B Technology & SaaS founders...</div>
-                    <div class="log-line"><span class="log-timestamp">[08:21:20]</span><span class="log-tag researcher">RESEARCHER</span>Scraped "CloudBase Systems". Extracted metadata: Cloud backup platform. News: Recruited new VP of Engineering last week.</div>
-                    <div class="log-line"><span class="log-timestamp">[08:21:44]</span><span class="log-tag copywriter">COPYWRITER</span>Generated custom email for "Alex Turner" (CEO of CloudBase) based on VP hiring signal.</div>
-                    <div class="log-line"><span class="log-timestamp">[08:22:00]</span><span class="log-tag booking">BOOKING</span>Email sent successfully. Real-time inbox tracking activated...</div>
-                </div>
+            </div>
+
+            <!-- Right Column: Spin Orbit Illustration representing Elena's brain -->
+            <div class="orbit-container">
+                <div class="orbit-core">ELENA</div>
+                <svg class="orbit-svg" viewBox="0 0 400 400">
+                    <!-- Outer Orbit Ring -->
+                    <circle cx="200" cy="200" r="160" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2" stroke-dasharray="8 8" />
+                    <!-- Middle Orbit Ring -->
+                    <circle cx="200" cy="200" r="110" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
+                    
+                    <!-- Animated Planet Nodes representing agents -->
+                    <!-- Prospector Planet -->
+                    <circle cx="200" cy="40" r="14" fill="url(#gradProspector)" style="filter: drop-shadow(0 0 8px var(--accent-gold));" />
+                    <!-- Scraper Planet -->
+                    <circle cx="310" cy="200" r="12" fill="url(#gradScraper)" style="filter: drop-shadow(0 0 8px var(--accent-cyan));" />
+                    <!-- Copywriter Planet -->
+                    <circle cx="200" cy="310" r="14" fill="url(#gradCopywriter)" style="filter: drop-shadow(0 0 8px var(--accent-pink));" />
+                    <!-- Booker Planet -->
+                    <circle cx="90" cy="200" r="12" fill="url(#gradBooker)" style="filter: drop-shadow(0 0 8px var(--success));" />
+                    
+                    <defs>
+                        <linearGradient id="gradProspector" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#fbbf24" />
+                            <stop offset="100%" stop-color="#d97706" />
+                        </linearGradient>
+                        <linearGradient id="gradScraper" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#22d3ee" />
+                            <stop offset="100%" stop-color="#0891b2" />
+                        </linearGradient>
+                        <linearGradient id="gradCopywriter" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#f472b6" />
+                            <stop offset="100%" stop-color="#db2777" />
+                        </linearGradient>
+                        <linearGradient id="gradBooker" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#34d399" />
+                            <stop offset="100%" stop-color="#059669" />
+                        </linearGradient>
+                    </defs>
+                </svg>
             </div>
         </div>
     </header>
+
+    <!-- Dynamic B2B ROI Calculator (Zero Fluff, Breathtaking Interaction!) -->
+    <section class="roi-calculator">
+        <div class="roi-header">
+            <h3>Calculate Your Monthly Savings</h3>
+            <p style="color: var(--text-gray); margin-top: 8px;">Slide to see how much money you save by deploying Elena AI SDR compared to hiring human reps.</p>
+        </div>
+
+        <div class="slider-group">
+            <div class="slider-label">
+                <span>Number of Human SDRs to Replace:</span>
+                <span id="sdr-count-display" style="color: #fff; font-size: 20px;">1 SDR</span>
+            </div>
+            <input type="range" id="sdr-slider" class="slider-input" min="1" max="10" value="1" oninput="calculateROISavings(this.value)">
+        </div>
+
+        <div class="roi-grid">
+            <div class="roi-card">
+                <h4>Human Team Cost</h4>
+                <div class="val" id="val-human-cost">$5,000</div>
+                <p style="font-size: 11px; color: var(--text-gray); margin-top: 6px;">Salary + Software Seats</p>
+            </div>
+            <div class="roi-card">
+                <h4>LeadFlow.AI Cost</h4>
+                <div class="val" id="val-leadflow-cost">$199</div>
+                <p style="font-size: 11px; color: var(--text-gray); margin-top: 6px;">Drip-Feed Inboxes Active</p>
+            </div>
+            <div class="roi-card savings">
+                <h4>Monthly USDT Savings</h4>
+                <div class="val" id="val-savings">$4,801</div>
+                <p style="font-size: 11px; color: #34d399; margin-top: 6px; font-weight: bold;">Saved & Reinvested</p>
+            </div>
+        </div>
+    </section>
 
     <!-- How It Works -->
     <section class="features" id="how-it-works">
@@ -930,22 +1107,22 @@
 
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">1</div>
+                <div class="feature-icon-box">1</div>
                 <h3>Autopilot Prospecting</h3>
                 <p>Our agents scrape directories, social profiles, and job boards to find perfect decision-makers matching your exact ICP.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">2</div>
+                <div class="feature-icon-box">2</div>
                 <h3>Deep Web Research</h3>
                 <p>Instead of sending generic templates, our agent reads their homepage, blog, and news to extract actual buying signals.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">3</div>
+                <div class="feature-icon-box">3</div>
                 <h3>AI Personalized Copywriting</h3>
                 <p>We craft emails tailored specifically to their situation. No corporate fluff, just highly relevant human-like messages.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">4</div>
+                <div class="feature-icon-box">4</div>
                 <h3>Automated Response Booking</h3>
                 <p>We analyze incoming responses. If they are interested, our booking agent automatically shares your calendar and schedules the meeting.</p>
             </div>
@@ -955,8 +1132,8 @@
     <!-- Live Free Trial Lead Magnet -->
     <section class="lead-magnet" id="free-trial">
         <div class="magnet-text">
-            <h3>Get a Free Custom AI Cold Email Draft</h3>
-            <p>Enter your target company URL and email, and our AI SDR Agent will scrape your prospect's site and generate a highly personalized cold email draft in real-time. Experience the magic instantly.</p>
+            <h3>Get 2 Free B2B Leads & AI Draft Instantly</h3>
+            <p>Enter your target company URL and email, and our AI SDR Agent will scrape your prospect's site, audit their speed, find 2 active local leads in their city, and write a custom cold email draft in real-time!</p>
         </div>
         <div class="magnet-form">
             <div class="form-group">
@@ -1130,20 +1307,17 @@
 
         /* Breathtaking 3D Tilt Parallax Effect on Hero Terminal */
         const card = document.getElementById('tilting-card');
-        const container3d = document.querySelector('.demo-container-3d-wrap');
+        const container3d = document.querySelector('.terminal-wrap');
 
         container3d.addEventListener('mousemove', (e) => {
             const rect = container3d.getBoundingClientRect();
-            const x = e.clientX - rect.left; // x position within element
-            const y = e.clientY - rect.top;  // y position within element
-            
-            // Calculate tilt degrees (range -15 to 15 deg)
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
             const xc = rect.width / 2;
             const yc = rect.height / 2;
-            const rotateY = ((x - xc) / xc) * 15; 
-            const rotateX = -((y - yc) / yc) * 15; 
-            
-            card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg) translateZ(10px)`;
+            const rotateY = ((x - xc) / xc) * 18; 
+            const rotateX = -((y - yc) / yc) * 18; 
+            card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg) translateZ(15px)`;
         });
 
         container3d.addEventListener('mouseleave', () => {
@@ -1155,6 +1329,32 @@
             card.style.transition = 'none';
         });
 
+        /* Interactive Vercel-style hover-glow border cards */
+        const glowCards = document.querySelectorAll('.feature-card');
+        glowCards.forEach(gCard => {
+            gCard.addEventListener('mousemove', (e) => {
+                const rect = gCard.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                gCard.style.setProperty('--mouse-x', `${x}px`);
+                gCard.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        /* Interactive Dynamic ROI Calculator Logic */
+        function calculateROISavings(val) {
+            document.getElementById('sdr-count-display').innerText = `${val} ${val == 1 ? 'SDR' : 'SDRs'}`;
+            
+            // Core SaaS financial math formulas
+            const humanCost = val * 5000;
+            const leadFlowCost = val * 199;
+            const savings = humanCost - leadFlowCost;
+            
+            // Format to currency strings
+            document.getElementById('val-human-cost').innerText = `$${humanCost.toLocaleString()}`;
+            document.getElementById('val-leadflow-cost').innerText = `$${leadFlowCost.toLocaleString()}`;
+            document.getElementById('val-savings').innerText = `$${savings.toLocaleString()}`;
+        }
 
         function appendLiveLog(agent, msg) {
             const screen = document.getElementById('terminal-screen');
@@ -1234,7 +1434,7 @@
                     }, 2500);
 
                     setTimeout(() => {
-                        appendLiveLog("copywriter", `[AI PERSONALIZATION] Writing customized high-converting outbound pitch for ${nameVal}...`);
+                        appendLiveLog("copywriter", `[AI PERSONALIZATION] Writing customized outbound pitch for ${nameVal}...`);
                     }, 4000);
 
                     setTimeout(() => {
@@ -1257,12 +1457,12 @@ Share LeadFlow.AI on Twitter/X to unlock them instantly!
 👉 Click here to share and unlock: 
 https://twitter.com/intent/tweet?text=I%20just%20got%202%20free%20high-ticket%20B2B%20leads%20instantly%20using%20LeadFlow.AI!%20Check%20out%20this%20amazing%20free%20AI%20SDR%20tool%20to%20scale%20your%20agency:%20https://leadflowsdr-star.github.io/leadflow/
 
-========================================
+========================================================
 👉 [AI COLD OUTREACH DRAFT GENERATED]:
 
 ${data.draft}
 
-========================================
+========================================================
 🎉 TO UNLOCK 1,000+ LEADS AND FULL OUTBOX ROTATION AUTONOMOUSLY, DEPLOY YOUR STARTER PLAN NOW!`;
                         appendLiveLog("booking", leadsMsg);
                     }, 6000);
@@ -1291,7 +1491,7 @@ ${data.draft}
 2. Prime Legal Toronto | contact@primelegaltoronto.com
    - Pain: Missing SSL, browser flags as insecure.
 
-========================================
+========================================================
 👉 [AI DRAFT GENERATED]:
 Subject: Helping ${url.split('.')[0]} scale...
 
