@@ -62,10 +62,10 @@ def audit_decreasing_commissions():
         if status == 'active':
             # Tiered/Decreasing Logic
             if cycle_count == 1:
-                commission_rate = 0.30 # 30% for the first month
+                commission_rate = 0.20 # 20% for the first month
                 tier_name = "Month 1 (First Sale Bonus)"
             else:
-                commission_rate = 0.10 # 10% for renewal months
+                commission_rate = 0.05 # 5% for renewal months
                 tier_name = f"Month {cycle_count} (Standard Renewal)"
                 
             commission_usd = price * commission_rate
