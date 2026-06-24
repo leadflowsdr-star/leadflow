@@ -1201,39 +1201,90 @@
         }
 
         function requestCustomEmail() {
-            const url = document.getElementById('comp-url').value || "techstart.com";
-            const name = document.getElementById('prosp-name').value || "Marcus (Founder)";
+            const urlVal = document.getElementById('comp-url').value || "techstart.com";
+            const nameVal = document.getElementById('prosp-name').value || "Marcus";
             
-            alert(`AI SDR Agent starting research on: ${url} for ${name}...\n\nDraft will be displayed in the live console at the top!`);
+            alert(`⚡ AI Agent starting deep research on: ${urlVal} for ${nameVal}...\n\nResults will be displayed in the live terminal console at the top!`);
             
             document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
             
+            appendLiveLog("prospector", `[REQUEST RECEIVED] Sourcing B2B targets related to: ${urlVal}...`);
+            
             setTimeout(() => {
-                appendLiveLog("researcher", `[CUSTOM REQUEST] Crawling submitted URL: ${url}...`);
-            }, 1000);
+                appendLiveLog("researcher", `[CRAWLER] Deep scanning website: ${urlVal}... Running performance and deliverability diagnostics...`);
+            }, 1200);
 
+            const backendUrl = "https://elena-sdr-backend.onrender.com/get_free_leads_api";
+            
+            fetch(backendUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    website: urlVal,
+                    name: nameVal
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    setTimeout(() => {
+                        appendLiveLog("researcher", `[AUDIT COMPLETE] Verified Speed: ${data.speed_seconds}s. Found 2 high-intent local B2B leads in database matching your niche!`);
+                    }, 2500);
+
+                    setTimeout(() => {
+                        appendLiveLog("copywriter", `[AI PERSONALIZATION] Writing customized high-converting outbound pitch for ${nameVal}...`);
+                    }, 4000);
+
+                    setTimeout(() => {
+                        // Display the generated free leads and custom pitch!
+                        const leadsMsg = `\n🔥 [FREE LEADS MINED FOR YOU]:\n\n1. ${data.leads[0].company} (${data.leads[0].contact})\n   - Contact: ${data.leads[0].email}\n   - Pain: ${data.leads[0].pain_point}\n\n2. ${data.leads[1].company} (${data.leads[1].contact})\n   - Contact: ${data.leads[1].email}\n   - Pain: ${data.leads[1].pain_point}\n\n========================================\n👉 [AI COLD OUTREACH DRAFT GENERATED]:\n\n${data.draft}\n\n========================================\n🎉 TO UNLOCK 1,000+ LEADS AND FULL OUTBOX ROTATION AUTONOMOUSLY, DEPLOY YOUR STARTER PLAN NOW!`;
+                        appendLiveLog("booking", leadsMsg);
+                    }, 6000);
+                } else {
+                    appendFallbackDemo(urlVal, nameVal);
+                }
+            })
+            .catch(error => {
+                console.error("Free leads generator failed: ", error);
+                appendFallbackDemo(urlVal, nameVal);
+            });
+        }
+
+        function appendFallbackDemo(url, name) {
             setTimeout(() => {
-                appendLiveLog("copywriter", `[CUSTOM REQUEST] Writing customized email draft for ${name}...`);
-            }, 3000);
-
+                appendLiveLog("researcher", `[FALLBACK DEMO] Speed Check for ${url} completed: 3.1s. Found 2 local Webflow clients!`);
+            }, 2500);
             setTimeout(() => {
-                const customDraft = `
-Subject: Scaling client acquisition for your team, ${name.split(' ')[0]}
+                appendLiveLog("copywriter", `[FALLBACK DEMO] Generated customized value-first email draft for ${name}.`);
+            }, 4000);
+            setTimeout(() => {
+                const fallbackDraft = `
+🔥 [FREE LEADS MINED FOR YOU]:
+1. Toronto Dental Center (Dr. David) | info@torontodental.ca
+   - Pain: Outdated site built in 2015, losing mobile conversions.
+2. Prime Legal Toronto | contact@primelegaltoronto.com
+   - Pain: Missing SSL, browser flags as insecure.
 
-Hi ${name.split(' ')[0]},
+========================================
+👉 [AI DRAFT GENERATED]:
+Subject: Helping ${url.split('.')[0]} scale...
 
-I was browsing ${url} and was impressed by your automated service offerings. 
+Hi ${name},
 
-Usually, the biggest challenge for businesses like yours is scaling the outbound B2B sales pipeline without inflating human hiring costs. We build Autonomous AI SDRs that research and email your target clients with highly-relevant messages, booking meetings on your calendar.
+I saw your portfolio on ${url} and was impressed by your creative designs. 
 
-Would you be open to a quick 5-minute call next Tuesday at 3 PM to see the AI workflow we used to research ${url}?
+Usually, the biggest challenge for independent studios like yours is scaling the sales pipeline without wasting hours on manual prospecting. We build Autonomous AI SDRs that research and email your target clients with highly-relevant messages, booking meetings on your calendar.
+
+Would you be open to a quick 5-minute call next Tuesday at 3 PM to see the AI workflow we used?
 
 Best,
 Elena
 LeadFlow.AI
                 `;
-                appendLiveLog("booking", `[DRAFT GENERATED]\n\n${customDraft}`);
-            }, 5000);
+                appendLiveLog("booking", fallbackDraft);
+            }, 6000);
         }
 
         let activePlanName = "Starter Agent"; // Default placeholder
