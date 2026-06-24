@@ -1239,7 +1239,31 @@
 
                     setTimeout(() => {
                         // Display the generated free leads and custom pitch!
-                        const leadsMsg = `\n🔥 [FREE LEADS MINED FOR YOU]:\n\n1. ${data.leads[0].company} (${data.leads[0].contact})\n   - Contact: ${data.leads[0].email}\n   - Pain: ${data.leads[0].pain_point}\n\n2. ${data.leads[1].company} (${data.leads[1].contact})\n   - Contact: ${data.leads[1].email}\n   - Pain: ${data.leads[1].pain_point}\n\n========================================\n👉 [AI COLD OUTREACH DRAFT GENERATED]:\n\n${data.draft}\n\n========================================\n🎉 TO UNLOCK 1,000+ LEADS AND FULL OUTBOX ROTATION AUTONOMOUSLY, DEPLOY YOUR STARTER PLAN NOW!`;
+                        const leadsMsg = `
+🔥 [FREE LEADS MINED FOR YOU]:
+
+1. ${data.leads[0].company} (${data.leads[0].contact})
+   - Contact: ${data.leads[0].email}
+   - Pain: ${data.leads[0].pain_point}
+
+2. ${data.leads[1].company} (${data.leads[1].contact})
+   - Contact: ${data.leads[1].email}
+   - Pain: ${data.leads[1].pain_point}
+
+🔒 [3 MORE PREMIUM LEADS LOCKED]
+Want to unlock 3 more high-ticket leads in your niche for FREE?
+Share LeadFlow.AI on Twitter/X to unlock them instantly!
+
+👉 Click here to share and unlock: 
+https://twitter.com/intent/tweet?text=I%20just%20got%202%20free%20high-ticket%20B2B%20leads%20instantly%20using%20LeadFlow.AI!%20Check%20out%20this%20amazing%20free%20AI%20SDR%20tool%20to%20scale%20your%20agency:%20https://leadflowsdr-star.github.io/leadflow/
+
+========================================
+👉 [AI COLD OUTREACH DRAFT GENERATED]:
+
+${data.draft}
+
+========================================
+🎉 TO UNLOCK 1,000+ LEADS AND FULL OUTBOX ROTATION AUTONOMOUSLY, DEPLOY YOUR STARTER PLAN NOW!`;
                         appendLiveLog("booking", leadsMsg);
                     }, 6000);
                 } else {
