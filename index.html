@@ -460,11 +460,12 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Glass Cards Section */
+        /* How It Works Section - Breathtaking Bento Grid with connected glowing halos */
         .features {
             padding: 120px 80px;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
         }
 
         .section-header {
@@ -473,8 +474,8 @@
         }
 
         .section-header h2 {
-            font-size: 44px;
-            font-weight: 800;
+            font-size: 48px;
+            font-weight: 850;
             margin-bottom: 20px;
             letter-spacing: -1.5px;
             background: linear-gradient(to right, #fff, #c7d2fe);
@@ -482,13 +483,19 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .features-grid {
+        /* Symmetric Bento Grid Layout */
+        .bento-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: 1.3fr 1fr;
             gap: 32px;
+            margin-top: 60px;
         }
 
-        .feature-card {
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: 1fr; }
+        }
+
+        .bento-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 28px;
@@ -496,16 +503,22 @@
             backdrop-filter: blur(12px);
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 300px;
         }
 
-        .feature-card:hover {
-            transform: translateY(-8px);
+        .bento-card:hover {
+            transform: translateY(-6px);
             border-color: rgba(255,255,255,0.15);
-            background-color: rgba(10, 10, 24, 0.7);
+            background-color: rgba(10, 10, 24, 0.6);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
         }
 
-        /* Hover-Glow border tracking */
-        .feature-card::before {
+        /* Tracking radial gradient highlight */
+        .bento-card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -515,30 +528,55 @@
             pointer-events: none;
         }
 
-        .feature-icon-box {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(255,255,255,0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            margin-bottom: 32px;
+        .bento-step-badge {
+            font-size: 11px;
+            font-weight: 800;
             color: var(--accent-indigo);
-            text-shadow: 0 0 10px rgba(99,102,241,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 24px;
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            align-self: flex-start;
         }
 
-        .feature-card h3 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 16px;
+        .bento-card h3 {
+            font-size: 24px;
+            font-weight: 750;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, #fff, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .feature-card p {
+        .bento-card p {
             color: var(--text-gray);
             font-size: 15px;
+        }
+
+        /* Glowing light orbs inside cards */
+        .bento-card::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(50px);
+            opacity: 0.1;
+            transition: opacity 0.3s;
+        }
+
+        .bento-card.prospector-card::after { background-color: var(--accent-gold); top: -50px; right: -50px; }
+        .bento-card.researcher-card::after { background-color: var(--accent-cyan); bottom: -50px; left: -50px; }
+        .bento-card.copywriter-card::after { background-color: var(--accent-pink); top: -50px; right: -50px; }
+        .bento-card.booking-card::after { background-color: var(--success); bottom: -50px; left: -50px; }
+
+        .bento-card:hover::after {
+            opacity: 0.22;
         }
 
         /* Lead Magnet */
@@ -1105,26 +1143,44 @@
             <p>Four autonomous agents collaborating in real-time to fill your sales pipeline with qualified meetings.</p>
         </div>
 
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon-box">1</div>
-                <h3>Autopilot Prospecting</h3>
-                <p>Our agents scrape directories, social profiles, and job boards to find perfect decision-makers matching your exact ICP.</p>
+        <!-- Breathtaking 2x2 Bento Grid Layout with Connected Glowing Halos -->
+        <div class="bento-grid">
+            <!-- Card 1: Prospecting (Large 1.3x) -->
+            <div class="bento-card prospector-card" onmousemove="trackBentoMouse(event, this)">
+                <div>
+                    <span class="bento-step-badge">Phase 1: Sourcing</span>
+                    <h3>Autopilot Prospecting</h3>
+                </div>
+                <p>Our autonomous agents scrape directories, social profiles, and job boards to find perfect decision-makers matching your exact niche.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon-box">2</div>
-                <h3>Deep Web Research</h3>
-                <p>Instead of sending generic templates, our agent reads their homepage, blog, and news to extract actual buying signals.</p>
+
+            <!-- Card 2: Research (Compact 1x) -->
+            <div class="bento-card researcher-card" onmousemove="trackBentoMouse(event, this)">
+                <div>
+                    <span class="bento-step-badge">Phase 2: Diagnostics</span>
+                    <h3>Deep Web Research</h3>
+                </div>
+                <p>Our scraper reads their homepage and news to extract actual, urgent buying signals like load speed bottlenecks.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon-box">3</div>
-                <h3>AI Personalized Copywriting</h3>
-                <p>We craft emails tailored specifically to their situation. No corporate fluff, just highly relevant human-like messages.</p>
+        </div>
+
+        <div class="bento-grid" style="margin-top: 32px;">
+            <!-- Card 3: Copywriting (Compact 1x) -->
+            <div class="bento-card copywriter-card" onmousemove="trackBentoMouse(event, this)">
+                <div>
+                    <span class="bento-step-badge">Phase 3: Creative</span>
+                    <h3>AI Personalized Copywriting</h3>
+                </div>
+                <p>We write 100-word highly customized, friendly pitches tailored exactly to their needs with Gemma 4.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon-box">4</div>
-                <h3>Automated Response Booking</h3>
-                <p>We analyze incoming responses. If they are interested, our booking agent automatically shares your calendar and schedules the meeting.</p>
+
+            <!-- Card 4: Booker (Large 1.3x) -->
+            <div class="bento-card booking-card" onmousemove="trackBentoMouse(event, this)">
+                <div>
+                    <span class="bento-step-badge">Phase 4: Sales</span>
+                    <h3>Automated Response Booking</h3>
+                </div>
+                <p>Our inbox agent answers replies, handles objections, coordinates times, and puts booked meetings straight on your calendar.</p>
             </div>
         </div>
     </section>
@@ -1329,17 +1385,14 @@
             card.style.transition = 'none';
         });
 
-        /* Interactive Vercel-style hover-glow border cards */
-        const glowCards = document.querySelectorAll('.feature-card');
-        glowCards.forEach(gCard => {
-            gCard.addEventListener('mousemove', (e) => {
-                const rect = gCard.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                gCard.style.setProperty('--mouse-x', `${x}px`);
-                gCard.style.setProperty('--mouse-y', `${y}px`);
-            });
-        });
+        /* Interactive Vercel-style hover-glow border cards for Bento Grid */
+        function trackBentoMouse(e, element) {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            element.style.setProperty('--mouse-x', `${x}px`);
+            element.style.setProperty('--mouse-y', `${y}px`);
+        }
 
         /* Interactive Dynamic ROI Calculator Logic */
         function calculateROISavings(val) {
