@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-LeadFlow.AI - Recurring Affiliate Commission Manager
-This script implements your precise recurring affiliate strategy:
-- Tracks referred clients.
-- Verifies if their monthly payment is 'active' or 'cancelled'.
-- Calculates the 20% USDT recurring commission ($100 for $499 plan, $300 for $1,499 plan) ONLY if the client paid.
-- If the client cancels or fails to renew, the commission is terminated instantly!
+LeadFlow.AI - Upgraded Decreasing Recurring Affiliate Manager
+This script implements your advanced tiered decreasing commission logic:
+- Month 1 (First Payment): Pay a high dopamine incentive of 30% to drive active referrals.
+- Month 2+ (Renewals): Pay a smaller recurring commission of 10% to preserve our B2B margins
+  while still incentivizing the affiliate to keep their referred client active.
+- If the client cancels: Commission is immediately terminated to $0.
 """
 
 import sqlite3
@@ -15,70 +15,39 @@ import json
 
 DB_NAME = "leadflow.db"
 
-def init_affiliate_tables():
-    """Initializes tables for tracking referrers and commission states"""
+def update_referred_customers_table():
+    """Adds a 'payment_cycle_count' column to track renewal months for commission tiering"""
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    
-    # Table for tracking affiliates/referrers
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS affiliates (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        usdt_wallet TEXT UNIQUE NOT NULL,
-        referral_code TEXT UNIQUE NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-    ''')
-    
-    # Table for tracking referred customers & their payment/commission status
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS referred_customers (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        affiliate_id INTEGER,
-        customer_email TEXT UNIQUE NOT NULL,
-        plan_name TEXT,
-        payment_status TEXT DEFAULT 'active', -- 'active' or 'cancelled'
-        monthly_price REAL,
-        commission_rate REAL DEFAULT 0.20, -- 20%
-        last_payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (affiliate_id) REFERENCES affiliates(id)
-    )
-    ''')
-    
-    # Table for tracking payouts
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS affiliate_payouts (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        referred_customer_id INTEGER,
-        payout_amount REAL,
-        payout_status TEXT DEFAULT 'pending_verification', -- 'pending_verification', 'ready_for_usdt_send', 'paid'
-        payout_date TIMESTAMP,
-        FOREIGN KEY (referred_customer_id) REFERENCES referred_customers(id)
-    )
-    ''')
-    
-    # Add a mock affiliate for demonstration
-    cursor.execute("SELECT COUNT(*) FROM affiliates")
-    if cursor.fetchone()[0] == 0:
-        cursor.execute("INSERT INTO affiliates (name, usdt_wallet, referral_code) VALUES ('Arash', 'TDn3ZSiQTRE3UJ5Qk9BTun2cn9fWB7exix', 'ELENA92')",)
-        print("[+] Created initial affiliate profile for Arash.")
-        
-    conn.commit()
-    conn.close()
+    try:
+        # Check if column already exists before adding
+        cursor.execute("PRAGMA table_info(referred_customers)")
+        columns = [col[1] for col in cursor.fetchall()]
+        if "payment_cycle_count" not in columns:
+            cursor.execute("ALTER TABLE referred_customers ADD COLUMN payment_cycle_count INTEGER DEFAULT 1")
+            print("[+] Added 'payment_cycle_count' column to referred_customers.")
+    except Exception as e:
+        print(f"[!] Warning updating schema: {str(e)}")
+    finally:
+        conn.close()
 
-def audit_monthly_commissions():
+def audit_decreasing_commissions():
     """
-    Scans referred customers. If payment is active, calculates the 20% commission.
-    If payment is cancelled, cuts the commission immediately!
+    Scans referred customers and calculates tiered commission:
+    - Month 1 (First payment): 30% commission.
+    - Month 2+: 10% recurring commission.
+    - If cancelled: 0% commission.
     """
-    print("\n[*] Running Monthly Affiliate Audit Loop...")
+    print("========================================================")
+    print("     🛡️ DEPLOYING RECURRING DECREASING COMMISSION AUDIT 🛡️")
+    print("========================================================")
+    
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     
-    # We query all referred customers to verify commission validity
+    # Query referrals
     cursor.execute('''
-    SELECT r.id, r.customer_email, r.payment_status, r.monthly_price, r.commission_rate, a.name, a.usdt_wallet
+    SELECT r.id, r.customer_email, r.payment_status, r.monthly_price, r.payment_cycle_count, a.name, a.usdt_wallet
     FROM referred_customers r
     JOIN affiliates a ON r.affiliate_id = a.id
     ''')
@@ -86,53 +55,69 @@ def audit_monthly_commissions():
     referrals = cursor.fetchall()
     
     for ref in referrals:
-        r_id, email, status, price, rate, aff_name, wallet = ref
-        print(f"\n[*] Auditing referral: {email} (Referred by: {aff_name})")
+        r_id, email, status, price, cycle_count, aff_name, wallet = ref
+        print(f"\n[*] Auditing Referral: {email} (Referred by: {aff_name})")
+        print(f"    - Current Payment Month/Cycle: Month {cycle_count}")
         
         if status == 'active':
-            commission_usd = price * rate
-            print(f"    - [STATUS: ACTIVE] Client renewed. Calculating {rate*100}% commission: ${commission_usd} USDT.")
+            # Tiered/Decreasing Logic
+            if cycle_count == 1:
+                commission_rate = 0.30 # 30% for the first month
+                tier_name = "Month 1 (First Sale Bonus)"
+            else:
+                commission_rate = 0.10 # 10% for renewal months
+                tier_name = f"Month {cycle_count} (Standard Renewal)"
+                
+            commission_usd = price * commission_rate
+            print(f"    - [STATUS: ACTIVE] [{tier_name}] Calculating {commission_rate*100}% commission: ${commission_usd} USDT.")
             
-            # Log a payout
+            # Record payout
             cursor.execute('''
             INSERT INTO affiliate_payouts (referred_customer_id, payout_amount, payout_status)
             VALUES (?, ?, ?)
             ''', (r_id, commission_usd, 'ready_for_usdt_send'))
-            print(f"    - [✔] Payout of ${commission_usd} USDT authorized and marked 'ready_for_usdt_send' to wallet {wallet}.")
+            print(f"    - [✔] Payout of ${commission_usd} USDT authorized to wallet {wallet}.")
         else:
             print(f"    - [STATUS: CANCELLED] Client did not renew their subscription. Commission terminated. $0 payout.")
             
     conn.commit()
     conn.close()
 
-def simulate_referral_signup():
-    """Simulates one active customer and one cancelled customer to test the rule"""
+def simulate_tiered_referrals():
+    """Simulates active new, active renewed, and cancelled customers to test the exact rules"""
+    update_referred_customers_table()
+    
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     
-    # Ensure tables are initialized
-    init_affiliate_tables()
+    # Clean up previous mock referrals to prevent duplicate errors
+    cursor.execute("DELETE FROM referred_customers")
     
-    # Insert mock referred customers
     try:
-        # Client 1: Active
+        # Case A: New Client (Month 1) - Active
         cursor.execute('''
-        INSERT OR IGNORE INTO referred_customers (affiliate_id, customer_email, plan_name, payment_status, monthly_price)
-        VALUES (?, ?, ?, ?, ?)
-        ''', (1, "active_client@agency.com", "Starter Agent Plan", "active", 499.0))
+        INSERT INTO referred_customers (affiliate_id, customer_email, plan_name, payment_status, monthly_price, payment_cycle_count)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ''', (1, "new_client_m1@agency.com", "Starter Agent Plan", "active", 499.0, 1))
         
-        # Client 2: Cancelled
+        # Case B: Renewed Client (Month 2+) - Active
         cursor.execute('''
-        INSERT OR IGNORE INTO referred_customers (affiliate_id, customer_email, plan_name, payment_status, monthly_price)
-        VALUES (?, ?, ?, ?, ?)
-        ''', (1, "cancelled_client@boutique.co", "Starter Agent Plan", "cancelled", 499.0))
+        INSERT INTO referred_customers (affiliate_id, customer_email, plan_name, payment_status, monthly_price, payment_cycle_count)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ''', (1, "renewed_client_m2@agency.com", "Starter Agent Plan", "active", 499.0, 2))
+        
+        # Case C: Cancelled Client - Cancelled
+        cursor.execute('''
+        INSERT INTO referred_customers (affiliate_id, customer_email, plan_name, payment_status, monthly_price, payment_cycle_count)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ''', (1, "cancelled_client_m3@agency.com", "Starter Agent Plan", "cancelled", 499.0, 3))
         
         conn.commit()
     except Exception as e:
-        pass
+        print(f"[!] Simulation Insert Error: {str(e)}")
     finally:
         conn.close()
 
 if __name__ == "__main__":
-    simulate_referral_signup()
-    audit_monthly_commissions()
+    simulate_tiered_referrals()
+    audit_decreasing_commissions()
