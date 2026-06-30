@@ -4,17 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sterling Chiropractic Care | Premium Chiropractic & Wellness</title>
+    
+    <!-- Lucide Icons & Lenis Smooth Scroll CDNs -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
         
         :root {
             --bg-dark: #02000a;
-            --bg-card: rgba(10, 10, 24, 0.45);
+            --bg-card: rgba(10, 10, 24, 0.4);
             --accent: #10b981;
             --accent-glow: rgba(16, 185, 129, 0.25);
+            --secondary: #06b6d4;
+            --gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            --border-color: rgba(255, 255, 255, 0.06);
             --text-white: #f9fafb;
             --text-gray: #9ca3af;
-            --border-color: rgba(255, 255, 255, 0.06);
         }
 
         * {
@@ -22,7 +29,6 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            scroll-behavior: smooth;
         }
 
         body {
@@ -33,40 +39,51 @@
             perspective: 2000px;
         }
 
-        /* Interactive Canvas for 3D Particle Network Background */
-        #particle-canvas {
+        /* 1. Immersive Liquid Aurora Background */
+        .cosmic-mesh {
             position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
+            top: 0; left: 0;
+            z-index: -3;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .aurora {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            mix-blend-mode: screen;
+            opacity: 0.15;
+            pointer-events: none;
+            animation: drift 20s infinite alternate ease-in-out;
+        }
+
+        .aurora-1 { width: 500px; height: 500px; background: var(--accent); top: -100px; left: -100px; }
+        .aurora-2 { width: 600px; height: 600px; background: var(--secondary); bottom: -100px; right: -100px; animation-delay: -5s; }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            100% { transform: translate(80px, 80px) scale(1.15) rotate(360deg); }
+        }
+
+        /* Grid overlay */
+        .grid-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 50px 50px;
             z-index: -2;
             pointer-events: none;
-            background-color: #02000a;
         }
 
-        /* Glow background auroras */
-        .glow-bg {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-            opacity: 0.15;
-            filter: blur(120px);
-            z-index: -1;
-            pointer-events: none;
-            animation: pulseGlow 15s infinite alternate ease-in-out;
-        }
-
-        @keyframes pulseGlow {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(100px, 50px) scale(1.15); }
-        }
-
+        /* Luxury Header */
         header {
-            background: rgba(3, 0, 20, 0.7);
-            backdrop-filter: blur(16px);
+            background: rgba(2, 0, 10, 0.65);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
             padding: 24px 80px;
             display: flex;
@@ -83,14 +100,17 @@
 
         .logo {
             font-weight: 900;
-            font-size: 24px;
-            letter-spacing: -1px;
+            font-size: 26px;
+            letter-spacing: -1.5px;
             background: linear-gradient(to right, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Hero section with 3D elements */
+        /* Hero Showcase */
         .hero {
             padding: 140px 40px;
             display: flex;
@@ -121,9 +141,9 @@
             border: 1px solid var(--border-color);
             color: #fff;
             padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 700;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 800;
             display: inline-block;
             margin-bottom: 28px;
             letter-spacing: 1px;
@@ -131,19 +151,20 @@
         }
 
         .hero h1 {
-            font-size: 56px;
-            font-weight: 850;
-            line-height: 1.15;
-            margin-bottom: 24px;
-            background: linear-gradient(to right, #fff, #c7d2fe);
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 28px;
+            letter-spacing: -2.5px;
+            background: linear-gradient(to right, #fff 30%, #c7d2fe, var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero p {
             color: var(--text-gray);
-            font-size: 18px;
-            margin-bottom: 36px;
+            font-size: 19px;
+            margin-bottom: 40px;
         }
 
         /* 3D Floating Interactive Card */
@@ -152,8 +173,8 @@
         }
 
         .hero-card-3d {
-            width: 380px;
-            height: 260px;
+            width: 400px;
+            height: 280px;
             background: linear-gradient(135deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.03) 100%);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 28px;
@@ -166,46 +187,62 @@
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
             cursor: pointer;
+            backdrop-filter: blur(25px);
         }
 
         @media (max-width: 480px) {
             .hero-card-3d { width: 100%; max-width: 320px; height: 240px; }
         }
 
-        .hero-card-3d h3 { font-size: 24px; font-weight: 800; }
-        .hero-card-3d p { font-size: 14px; opacity: 0.8; }
+        .hero-card-3d h3 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-card-3d p {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
 
         .btn {
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 700;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 800;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             border: none;
         }
 
         .btn-primary {
-            background: var(--accent);
+            background: var(--gradient);
             color: white;
             box-shadow: 0 10px 25px var(--accent-glow);
         }
 
         .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px var(--accent-glow);
         }
 
-        /* Glass Cards Section */
+        /* Bento-style Services Grid */
         .services {
             padding: 120px 80px;
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .services { padding: 80px 20px; }
         }
 
         .section-title {
@@ -215,7 +252,7 @@
 
         .section-title h2 {
             font-size: 48px;
-            font-weight: 800;
+            font-weight: 900;
             margin-bottom: 20px;
             letter-spacing: -1.5px;
             background: linear-gradient(to right, #fff, #c7d2fe);
@@ -223,41 +260,60 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .grid {
+        /* Modern Symmetric Bento Grid */
+        .bento-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1.3fr 1fr;
             gap: 32px;
         }
 
-        /* Vercel/Linear Hover-Glow Cards */
-        .glow-card {
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: 1fr; }
+        }
+
+        .bento-row-reverse {
+            grid-template-columns: 1fr 1.3fr;
+            margin-top: 32px;
+        }
+
+        @media (max-width: 900px) {
+            .bento-row-reverse { grid-template-columns: 1fr; }
+        }
+
+        .bento-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 28px;
             padding: 48px;
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(12px);
-            transition: border-color 0.3s, background-color 0.3s;
-            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 320px;
         }
 
-        .glow-card:hover {
-            background-color: rgba(11, 15, 30, 0.6);
+        .bento-card:hover {
+            transform: translateY(-6px);
             border-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(10, 10, 24, 0.65);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
         }
 
-        .glow-card::before {
+        /* Vercel-style Mouse Hover Glow */
+        .bento-card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             border-radius: 28px;
-            background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(255, 255, 255, 0.06), transparent 40%);
+            background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(255, 255, 255, 0.05), transparent 40%);
             z-index: 1;
             pointer-events: none;
         }
 
-        .service-icon {
+        .bento-icon-wrapper {
             width: 60px;
             height: 60px;
             background-color: rgba(255, 255, 255, 0.02);
@@ -266,38 +322,37 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
-            margin-bottom: 32px;
             color: var(--accent);
-            text-shadow: 0 0 10px var(--accent-glow);
+            margin-bottom: 32px;
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
-        .glow-card h3 {
-            font-size: 22px;
-            font-weight: 700;
+        .bento-card h3 {
+            font-size: 24px;
+            font-weight: 800;
             margin-bottom: 16px;
-            position: relative;
-            z-index: 2;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .glow-card p {
+        .bento-card p {
             color: var(--text-gray);
-            font-size: 15px;
-            position: relative;
-            z-index: 2;
+            font-size: 15.5px;
         }
 
         /* Glowing Contact Form */
         .contact-section {
-            padding: 80px 40px;
+            padding: 80px 48px;
             max-width: 800px;
             margin: 80px auto 140px auto;
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 32px;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
         }
 
         .contact-form {
@@ -326,7 +381,7 @@
         }
 
         footer {
-            padding: 40px;
+            padding: 60px 40px;
             border-top: 1px solid var(--border-color);
             text-align: center;
             color: var(--text-gray);
@@ -336,14 +391,22 @@
 </head>
 <body>
 
-    <!-- WebGL-style Particle Canvas -->
-    <canvas id="particle-canvas"></canvas>
-
-    <div class="glow-bg" style="top: -200px; left: -200px;"></div>
+    <!-- Liquid Aurora Background -->
+    <div class="cosmic-mesh">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+    </div>
+    <div class="grid-layer"></div>
 
     <header>
-        <div class="logo">Sterling Chiropractic Care</div>
-        <a href="tel:+1 416 555 0192" class="btn btn-primary" style="padding: 12px 24px; font-size: 13px;">Call: +1 416 555 0192</a>
+        <div class="logo">
+            <i data-lucide="sparkles" style="color: var(--accent); width: 28px; height: 28px;"></i>
+            Sterling Chiropractic Care
+        </div>
+        <a href="tel:+1 416 555 0192" class="btn btn-primary" style="padding: 12px 24px; font-size: 13px;">
+            <i data-lucide="phone-call" style="width: 16px; height: 13px;"></i>
+            Call: +1 416 555 0192
+        </a>
     </header>
 
     <section class="hero">
@@ -351,7 +414,10 @@
             <span class="hero-badge">EXPERIENCED LOCAL PROFESSIONALS</span>
             <h1>Premium <br>Chiropractic & Wellness</h1>
             <p>Your local trusted experts delivering flawless, guaranteed, and affordable solutions. We pride ourselves on absolute punctuality and world-class craftsmanship.</p>
-            <a href="#contact" class="btn btn-primary">Book a Service Now</a>
+            <a href="#contact" class="btn btn-primary">
+                <i data-lucide="calendar"></i>
+                Book a Service Now
+            </a>
         </div>
         
         <!-- 3D Interactive Card -->
@@ -359,7 +425,10 @@
             <div class="hero-card-3d" id="tilt-card">
                 <h3>Sterling Chiropractic Care</h3>
                 <div>
-                    <p style="font-weight: 700; margin-bottom: 4px; color: #fff;">📍 Service Location</p>
+                    <p style="font-weight: 700; margin-bottom: 4px; color: #fff; display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="map-pin" style="width: 16px; height: 16px; color: var(--accent);"></i>
+                        Service Location
+                    </p>
                     <p>456 Yonge St, Toronto, Canada</p>
                 </div>
             </div>
@@ -371,21 +440,53 @@
             <h2>Our Specialized Services</h2>
             <p style="color: var(--text-gray); margin-top: 8px;">We cover everything you need with absolute precision and quality.</p>
         </div>
-        <div class="grid">
-            <div class="glow-card">
-                <div class="service-icon">⭐</div>
-                <h3>24/7 Rapid Response</h3>
-                <p>We are always on standby. No matter when an emergency occurs, our technical team is deployed instantly to secure and fix your problem.</p>
+        
+        <!-- Modern 2x2 Bento Grid -->
+        <div class="bento-grid">
+            <!-- Card 1: 24/7 Response -->
+            <div class="bento-card" onmousemove="trackBentoMouse(event, this)">
+                <div class="bento-icon-wrapper">
+                    <i data-lucide="shield-alert" style="width: 28px; height: 28px;"></i>
+                </div>
+                <div>
+                    <h3>24/7 Rapid Response</h3>
+                    <p>We are always on standby. No matter when an emergency occurs, our technical team is deployed instantly to secure and fix your problem.</p>
+                </div>
             </div>
-            <div class="glow-card">
-                <div class="service-icon">🛡️</div>
-                <h3>100% Quality Guaranteed</h3>
-                <p>We stand by our work. Every project we deliver is backed by an official warranty, giving you absolute peace of mind and satisfaction.</p>
+            
+            <!-- Card 2: Insured -->
+            <div class="bento-card" onmousemove="trackBentoMouse(event, this)">
+                <div class="bento-icon-wrapper">
+                    <i data-lucide="check-check" style="width: 28px; height: 28px;"></i>
+                </div>
+                <div>
+                    <h3>Licensed & Insured</h3>
+                    <p>Rest easy knowing your property is protected by certified, background-checked elite local specialists with full warranty coverage.</p>
+                </div>
             </div>
-            <div class="glow-card">
-                <div class="service-icon">💎</div>
-                <h3>Boutique Craftsmanship</h3>
-                <p>We don't do basic or rushed jobs. Every detail is meticulously crafted by certified, elite local specialists who love what they do.</p>
+        </div>
+
+        <div class="bento-grid bento-row-reverse">
+            <!-- Card 3: Satisfaction -->
+            <div class="bento-card" onmousemove="trackBentoMouse(event, this)">
+                <div class="bento-icon-wrapper">
+                    <i data-lucide="award" style="width: 28px; height: 28px;"></i>
+                </div>
+                <div>
+                    <h3>Satisfaction Guarantee</h3>
+                    <p>We don't leave until the job is done perfectly. Every service we perform is backed by our signature 100% satisfaction guarantee.</p>
+                </div>
+            </div>
+
+            <!-- Card 4: Craftsmanship -->
+            <div class="bento-card" onmousemove="trackBentoMouse(event, this)">
+                <div class="bento-icon-wrapper">
+                    <i data-lucide="gem" style="width: 28px; height: 28px;"></i>
+                </div>
+                <div>
+                    <h3>Boutique Craftsmanship</h3>
+                    <p>We don't do basic or rushed jobs. Every detail is meticulously crafted by certified, elite local specialists who love what they do.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -399,7 +500,10 @@
             <input type="email" class="form-input" placeholder="Your Email Address" required>
             <input type="tel" class="form-input" placeholder="Your Phone Number" required>
             <textarea class="form-input" style="height: 120px; resize: vertical;" placeholder="Describe your service need..." required></textarea>
-            <button type="submit" class="btn btn-primary" style="justify-content: center; width: 100%;">Submit Quote Request</button>
+            <button type="submit" class="btn btn-primary" style="justify-content: center; width: 100%;">
+                <i data-lucide="send"></i>
+                Submit Quote Request
+            </button>
         </form>
     </section>
 
@@ -408,6 +512,22 @@
     </footer>
 
     <script>
+        /* Initialize Lucide Icons */
+        lucide.createIcons();
+
+        /* Initialize Smooth momentum Lenis Scroll */
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
         /* 1. Interactive 3D Card Hover Effect */
         const card = document.getElementById('tilt-card');
         const wrap = document.querySelector('.hero-3d-wrap');
@@ -416,11 +536,11 @@
             const rect = wrap.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            const xc = wrap.width / 2;
-            const yc = wrap.height / 2;
+            const xc = rect.width / 2;
+            const yc = rect.height / 2;
             const rotateY = ((x - xc) / xc) * 20;
             const rotateX = -((y - yc) / yc) * 20;
-            card.style.transform = `rotateY(${{rotateY}}deg) rotateX(${{rotateX}}deg) translateZ(10px)`;
+            card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg) translateZ(10px)`;
         });
 
         wrap.addEventListener('mouseleave', () => {
@@ -433,88 +553,13 @@
         });
 
         /* 2. Vercel/Linear Hover-Glow Card Effect (Mouse Tracking) */
-        const glowCards = document.querySelectorAll('.glow-card');
-        glowCards.forEach(gCard => {
-            gCard.addEventListener('mousemove', (e) => {
-                const rect = gCard.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                gCard.style.setProperty('--mouse-x', `${x}px`);
-                gCard.style.setProperty('--mouse-y', `${y}px`);
-            });
-        });
-
-        /* 3. HTML5 Canvas 3D Particle Network Background */
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-
-        let particles = [];
-        const particleCount = 60;
-        const maxDistance = 120;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        function trackBentoMouse(e, element) {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            element.style.setProperty('--mouse-x', `${x}px`);
+            element.style.setProperty('--mouse-y', `${y}px`);
         }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.radius = Math.random() * 2 + 1;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(99, 102, 241, 0.3)';
-                ctx.fill();
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const p1 = particles[i];
-                    const p2 = particles[j];
-                    const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
-
-                    if (dist < maxDistance) {
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        const alpha = (1 - dist / maxDistance) * 0.15;
-                        ctx.strokeStyle = `rgba(99, 102, 241, ${alpha})`;
-                        ctx.lineWidth = 1;
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(animate);
-        }
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-        animate();
     </script>
 </body>
 </html>
