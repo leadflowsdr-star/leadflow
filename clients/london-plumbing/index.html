@@ -4,18 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apex London Plumbing | Premium Plumbing & Heating Experts</title>
+    
+    <!-- Lucide Icons & Lenis Smooth Scroll CDNs -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
         
         :root {
-            --bg-dark: #030014;
-            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-dark: #02000a;
+            --bg-card: rgba(10, 10, 24, 0.4);
             --accent: #3b82f6;
-            --accent-glow: rgba(99, 102, 241, 0.15);
-            --pink-accent: #1d4ed8;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+            --secondary: #1d4ed8;
+            --gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            --border-color: rgba(255, 255, 255, 0.06);
             --text-white: #f9fafb;
             --text-gray: #9ca3af;
-            --border-color: rgba(255, 255, 255, 0.08);
         }
 
         * {
@@ -23,7 +29,18 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            scroll-behavior: smooth;
+        }
+
+        /* Accessibility reduced motion standard support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+            #particle-canvas {
+                display: none !important;
+            }
         }
 
         body {
@@ -31,43 +48,54 @@
             color: var(--text-white);
             overflow-x: hidden;
             line-height: 1.6;
-            perspective: 1000px;
+            perspective: 2000px;
+            font-size: 16px;
         }
 
-        /* Interactive Canvas for 3D Particle Network Background */
-        #particle-canvas {
+        /* Immersive Liquid Aurora Background */
+        .cosmic-mesh {
             position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
+            top: 0; left: 0;
+            z-index: -3;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .aurora {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            mix-blend-mode: screen;
+            opacity: 0.15;
+            pointer-events: none;
+            animation: drift 20s infinite alternate ease-in-out;
+        }
+
+        .aurora-1 { width: 500px; height: 500px; background: var(--accent); top: -100px; left: -100px; }
+        .aurora-2 { width: 600px; height: 600px; background: var(--secondary); bottom: -100px; right: -100px; animation-delay: -5s; }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            100% { transform: translate(80px, 80px) scale(1.15) rotate(360deg); }
+        }
+
+        /* Grid overlay */
+        .grid-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 50px 50px;
             z-index: -2;
             pointer-events: none;
-            background-color: #030014;
-        }
-
-        /* Glow background auroras */
-        .glow-bg {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-            opacity: 0.12;
-            filter: blur(120px);
-            z-index: -1;
-            pointer-events: none;
-            animation: pulseGlow 15s infinite alternate ease-in-out;
-        }
-
-        @keyframes pulseGlow {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(100px, 50px) scale(1.15); }
         }
 
         header {
-            background: rgba(3, 0, 20, 0.7);
-            backdrop-filter: blur(16px);
+            background: rgba(2, 0, 10, 0.65);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
             padding: 24px 80px;
             display: flex;
@@ -83,15 +111,18 @@
         }
 
         .logo {
-            font-weight: 800;
-            font-size: 22px;
-            letter-spacing: -1px;
-            background: linear-gradient(to right, #fff, var(--primary));
+            font-weight: 900;
+            font-size: 26px;
+            letter-spacing: -1.5px;
+            background: linear-gradient(to right, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Hero section with 3D elements */
+        /* Hero Showcase */
         .hero {
             padding: 140px 40px;
             display: flex;
@@ -101,6 +132,7 @@
             margin: 0 auto;
             gap: 80px;
             position: relative;
+            text-align: left;
         }
 
         @media (max-width: 900px) {
@@ -117,13 +149,13 @@
         }
 
         .hero-badge {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
             color: #fff;
             padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 700;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 800;
             display: inline-block;
             margin-bottom: 28px;
             letter-spacing: 1px;
@@ -131,11 +163,12 @@
         }
 
         .hero h1 {
-            font-size: 56px;
-            font-weight: 850;
-            line-height: 1.15;
-            margin-bottom: 24px;
-            background: linear-gradient(to right, #fff, #c7d2fe);
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 28px;
+            letter-spacing: -2.5px;
+            background: linear-gradient(to right, #fff 30%, #c7d2fe, var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -148,16 +181,17 @@
 
         /* 3D Floating Interactive Card */
         .hero-3d-wrap {
-            perspective: 1000px;
+            perspective: 2000px;
         }
 
         .hero-card-3d {
             width: 380px;
             height: 260px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 24px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 30px rgba(99,102,241,0.2);
-            padding: 32px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.03) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 40px var(--accent-glow);
+            padding: 40px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -165,77 +199,168 @@
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
             cursor: pointer;
+            backdrop-filter: blur(25px);
         }
 
         @media (max-width: 480px) {
             .hero-card-3d { width: 100%; max-width: 320px; height: 240px; }
         }
 
-        .hero-card-3d h3 { font-size: 24px; font-weight: 800; }
-        .hero-card-3d p { font-size: 14px; opacity: 0.8; }
+        .hero-card-3d h3 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-card-3d p {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
 
         .btn {
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 700;
+            min-height: 48px;
+            min-width: 140px;
+            padding: 12px 28px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 800;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
             border: none;
+            outline: none;
+        }
+
+        .btn:focus-visible, .form-input:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px;
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: var(--gradient);
             color: white;
-            box-shadow: 0 10px 20px rgba(255,255,255,0.05);
+            box-shadow: 0 10px 25px var(--accent-glow);
         }
 
         .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px var(--accent-glow);
         }
 
-        /* Glass Cards Section */
+        /* Bento-style Services Grid */
         .services {
-            padding: 100px 40px;
+            padding: 120px 80px;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .services { padding: 80px 20px; }
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
         }
 
         .section-title h2 {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 12px;
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+            background: linear-gradient(to right, #fff, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .grid {
+        /* Modern Symmetric Bento Grid */
+        .bento-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 32px;
         }
 
-        .service-card {
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: 1fr; }
+        }
+
+        .bento-row-reverse {
+            grid-template-columns: 1fr 1.3fr;
+            margin-top: 32px;
+        }
+
+        @media (max-width: 900px) {
+            .bento-row-reverse { grid-template-columns: 1fr; }
+        }
+
+        .bento-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 32px;
-            backdrop-filter: blur(12px);
-            transition: all 0.3s;
+            border-radius: 28px;
+            padding: 48px;
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 320px;
         }
 
-        .service-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            background-color: rgba(17, 24, 39, 0.8);
+        .bento-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(10, 10, 24, 0.65);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        /* Vercel-style Mouse Hover Glow */
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 28px;
+            background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(255, 255, 255, 0.05), transparent 40%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .bento-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            margin-bottom: 32px;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .bento-card h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bento-card p {
+            color: var(--text-gray);
+            font-size: 15.5px;
         }
 
         /* Glowing Contact Form */
@@ -246,9 +371,9 @@
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 32px;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
         }
 
         .contact-form {
@@ -272,12 +397,12 @@
 
         .form-input:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 0 15px var(--accent-glow);
             background-color: rgba(255,255,255,0.04);
         }
 
         footer {
-            padding: 40px;
+            padding: 60px 40px;
             border-top: 1px solid var(--border-color);
             text-align: center;
             color: var(--text-gray);
@@ -293,8 +418,14 @@
     <div class="glow-bg" style="top: -200px; left: -200px;"></div>
 
     <header>
-        <div class="logo">Apex London Plumbing</div>
-        <a href="tel:+44 20 7946 0958" class="btn btn-primary" style="padding: 12px 24px; font-size: 13px;">Call: +44 20 7946 0958</a>
+        <div class="logo">
+            <i data-lucide="sparkles" style="color: var(--accent); width: 28px; height: 28px;"></i>
+            Apex London Plumbing
+        </div>
+        <a href="tel:+44 20 7946 0958" class="btn btn-primary" style="padding: 12px 24px; font-size: 13px;">
+            <i data-lucide="phone-call" style="width: 16px; height: 13px;"></i>
+            Call: +44 20 7946 0958
+        </a>
     </header>
 
     <section class="hero">
@@ -302,7 +433,10 @@
             <span class="hero-badge">EXPERIENCED LOCAL PROFESSIONALS</span>
             <h1>Premium <br>Plumbing & Heating Experts</h1>
             <p>Your local trusted experts delivering flawless, guaranteed, and affordable solutions. We pride ourselves on absolute punctuality and world-class craftsmanship.</p>
-            <a href="#contact" class="btn btn-primary">Book a Service Now</a>
+            <a href="#contact" class="btn btn-primary">
+                <i data-lucide="calendar"></i>
+                Book a Service Now
+            </a>
         </div>
         
         <!-- 3D Interactive Card -->
@@ -310,7 +444,10 @@
             <div class="hero-card-3d" id="tilt-card">
                 <h3>Apex London Plumbing</h3>
                 <div>
-                    <p style="font-weight: 700; margin-bottom: 4px; color: #fff;">📍 Service Location</p>
+                    <p style="font-weight: 700; margin-bottom: 4px; color: #fff; display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="map-pin" style="width: 16px; height: 16px; color: var(--accent);"></i>
+                        Service Location
+                    </p>
                     <p>12 Baker St, London, UK</p>
                 </div>
             </div>
@@ -322,21 +459,53 @@
             <h2>Our Specialized Services</h2>
             <p style="color: var(--text-gray); margin-top: 8px;">We cover everything you need with absolute precision and quality.</p>
         </div>
-        <div class="grid">
-            <div class="service-card">
-                <div style="font-size: 28px; margin-bottom: 16px;">⭐</div>
-                <h3>24/7 Rapid Response</h3>
-                <p>We are always on standby. No matter when an emergency occurs, our technical team is deployed instantly to secure and fix your problem.</p>
+        
+        <!-- Modern 2x2 Bento Grid -->
+        <div class="bento-grid">
+            <!-- Card 1: 24/7 Response -->
+            <div class="bento-card" onmousemove="trackBentoMouse(event, this)">
+                <div class="bento-icon-wrapper">
+                    <i data-lucide="shield-alert" style="width: 28px; height: 28px;"></i>
+                </div>
+                <div>
+                    <h3>24/7 Rapid Response</h3>
+                    <p>We are always on standby. No matter when an emergency occurs, our technical team is deployed instantly to secure and fix your problem.</p>
+                </div>
             </div>
-            <div class="service-card">
-                <div style="font-size: 28px; margin-bottom: 16px;">🛡️</div>
-                <h3>100% Quality Guaranteed</h3>
-                <p>We stand by our work. Every project we deliver is backed by an official warranty, giving you absolute peace of mind and satisfaction.</p>
+            
+            <!-- Card 2: Insured -->
+            <div class="bento-card" onmousemove="trackBentoMouse(event, this)">
+                <div class="bento-icon-wrapper">
+                    <i data-lucide="check-check" style="width: 28px; height: 28px;"></i>
+                </div>
+                <div>
+                    <h3>Licensed & Insured</h3>
+                    <p>Rest easy knowing your property is protected by certified, background-checked elite local specialists with full warranty coverage.</p>
+                </div>
             </div>
-            <div class="service-card">
-                <div style="font-size: 28px; margin-bottom: 16px;">💎</div>
-                <h3>Boutique Craftsmanship</h3>
-                <p>We don't do basic or rushed jobs. Every detail is meticulously crafted by certified, elite local specialists who love what they do.</p>
+        </div>
+
+        <div class="bento-grid bento-row-reverse">
+            <!-- Card 3: Satisfaction -->
+            <div class="bento-card" onmousemove="trackBentoMouse(event, this)">
+                <div class="bento-icon-wrapper">
+                    <i data-lucide="award" style="width: 28px; height: 28px;"></i>
+                </div>
+                <div>
+                    <h3>Satisfaction Guarantee</h3>
+                    <p>We don't leave until the job is done perfectly. Every service we perform is backed by our signature 100% satisfaction guarantee.</p>
+                </div>
+            </div>
+
+            <!-- Card 4: Craftsmanship -->
+            <div class="bento-card" onmousemove="trackBentoMouse(event, this)">
+                <div class="bento-icon-wrapper">
+                    <i data-lucide="gem" style="width: 28px; height: 28px;"></i>
+                </div>
+                <div>
+                    <h3>Boutique Craftsmanship</h3>
+                    <p>We don't do basic or rushed jobs. Every detail is meticulously crafted by certified, elite local specialists who love what they do.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -350,7 +519,10 @@
             <input type="email" class="form-input" placeholder="Your Email Address" required>
             <input type="tel" class="form-input" placeholder="Your Phone Number" required>
             <textarea class="form-input" style="height: 120px; resize: vertical;" placeholder="Describe your service need..." required></textarea>
-            <button type="submit" class="btn btn-primary" style="justify-content: center; width: 100%;">Submit Quote Request</button>
+            <button type="submit" class="btn btn-primary" style="justify-content: center; width: 100%;">
+                <i data-lucide="send"></i>
+                Submit Quote Request
+            </button>
         </form>
     </section>
 
@@ -359,6 +531,22 @@
     </footer>
 
     <script>
+        /* Initialize Lucide Icons */
+        lucide.createIcons();
+
+        /* Initialize Smooth momentum Lenis Scroll */
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
         /* 1. Interactive 3D Card Hover Effect */
         const card = document.getElementById('tilt-card');
         const wrap = document.querySelector('.hero-3d-wrap');
@@ -383,7 +571,16 @@
             card.style.transition = 'none';
         });
 
-        /* 2. HTML5 Canvas 3D Particle Network Background */
+        /* 2. Vercel/Linear Hover-Glow Card Effect (Mouse Tracking) */
+        function trackBentoMouse(e, element) {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            element.style.setProperty('--mouse-x', `${x}px`);
+            element.style.setProperty('--mouse-y', `${y}px`);
+        }
+
+        /* 3. HTML5 Canvas 3D Particle Network Background */
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
 
